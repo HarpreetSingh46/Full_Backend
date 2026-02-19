@@ -1,0 +1,13 @@
+Maine Express.js ka use karke ek simple Notes REST API banayi hai. Ye API create, read, update aur delete operations perform karti hai.
+
+Sabse pehle maine Express ko import kiya aur ek app create kiya. Ye app hi mera server hai jo client ki requests handle karta hai. Uske baad maine express.json() middleware use kiya taaki request body me aane wala JSON data read ho sake. Agar ye middleware use na karun to req.body ka data nahi milega.
+
+Maine ek empty array notes banaya hai jisme saare notes store ho rahe hain. Ye sirf memory me store hote hain, isliye agar server restart ho jaye to saara data delete ho jayega.
+
+POST /notes route me maine req.body ko directly notes array me push kiya hai. Isse naya note create ho jata hai aur maine status code 201 bheja hai jo batata hai ki note successfully create ho gaya.
+
+GET /notes route me maine pura notes array response me bhej diya hai. Iska status code 200 hai jo successful request ko show karta hai.
+
+DELETE /notes/:sample route me maine index ke basis par note delete karne ki koshish ki hai. Lekin maine delete operator use kiya hai jo array me empty space chhod deta hai. Isko better banane ke liye splice() use karna chahiye.
+
+PATCH /notes/:idex route me maine specific index par jaake note ki description update ki hai. Ye update successfully hone par status 200 return karta hai. Lekin yaha pe index check karna zaroori hai warna error aa sakta hai.
