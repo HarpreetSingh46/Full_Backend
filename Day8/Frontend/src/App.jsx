@@ -1,32 +1,32 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from  "axios"
 const App = () => {
-  const [notes, setnotes] = useState([
-    {
-    title:"test title 1",
-    description:"test description"
-    },
-    {
-    title:"test title 2",
-    description:"test description"
-    },
-    {
-    title:"test title 3",
-    description:"test description"
-    },
-    {
-    title:"test title 4",
-    description:"test description"
-    },
-])
+  const [notes, setnotes] = useState([])
 
-axios.get('https://localhost:3000/api/notes')
-.then((res)=>{
-  setnotes(res.data.notes)
-})
+  function fetchNotes(){
+
+    axios.get('https://localhost:3000/api/notes')
+    .then(res=>{
+      console.log(res.data)
+    })
+  }
+  useEffect(()=>{
+    fetchNotes()
+  },[])
   
+function HandleSubmit(e){
+  e.preventDefault()
+  const {title,description}= e.target.elements;
+  console.log(title.value,description.value)
+}
+
   return (
     <div>
+      <form className='note-create-form'  onSubmit={HandleSubmit}>
+        <input name='title' type="text" placeholder='enter title' />
+        <input name='description' type="text" placeholder='enter description' id="" />
+        <button>Submit</button>
+      </form>
       <div className="notes">
         {
           notes.map(note=>{

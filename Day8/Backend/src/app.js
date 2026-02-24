@@ -1,10 +1,15 @@
 const express = require("express")
 const cors = require("cors")
 const noteModel = require("./models/note.model")
+const helmet = require("helmet") ;
 const app = express()
 app.use(express.json())
 
+app.use(helmet());
 app.use(cors())
+app.use('*name',(req,res)=>{
+    res.send("this is wild card")
+})
 
 app.post("/api/notes", async function(req,res){
     const {title, description } = req.body;
@@ -35,16 +40,16 @@ app.delete("/api/notes/:id", async (req,res)=>{
     
 })
 
-// app.patch("/api/notes:id", async (req,res)=>{
-//     const id = req.params.id;
-//     const {description}  = req.body
-//   await  noteModel.findByIdAndUpdate(id,{
-//         description
-//     })
-//     res.status(200).json({
-//         message:"note updated successfully"
-//     })
-// })
+app.patch("/api/notes:id", async (req,res)=>{
+    const id = req.params.id;
+    const {description}  = req.body
+  await  noteModel.findByIdAndUpdate(id,{
+        description
+    })
+    res.status(200).json({
+        message:"note updated successfully"
+    })
+})
 
 
 
