@@ -7,7 +7,7 @@ const imagekit = ImageKit({
 });
 
 async function createPostController(req, res) {
-  console.log(req.body, req.file);
+
   const token = req.cookies.token;
 
   let decoded = null;
