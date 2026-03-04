@@ -12,7 +12,7 @@ async function CreatePost(req,res){
     const token = req.cookies.token;
     let decoded = null;
     try{
-        decoded = jwt.verify(token.process.env.IMAGEKIT_PRIVATE_KEY)
+        decoded = jwt.verify(token,process.env.IMAGEKIT_PRIVATE_KEY)
 
     }catch(err){
         return res.status(404).json({
@@ -37,11 +37,38 @@ async function CreatePost(req,res){
     })
 }
 
+async function Getpost(req,res){
+    const token = req.cookies.token;
+    if(!token){
+        return res.status(404).json({
+            message:"Unauthorised user"
+        })
+    }
+    let decoded= null;
+    try{
+        decoded = jwt.verify(token,process.env.IMAGEKIT_PRIVATE_KEY)
+    }catch(err){
+        return res.status(404).json({
+            message:"token invalid r"
+        })
+    }
 
+    const userId = decoded.id;
+    const post  = await postModel.find({
+        user:userId
+    })
+    res.status(201).json({
+        message:"post fetched successfully",
+        post
+    })
+
+
+}
 
 
 
 
 module.exports= {
     CreatePost,
+    Getpost
 }

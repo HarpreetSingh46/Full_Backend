@@ -44,7 +44,7 @@ async function getPostController(req,res){
 
   let decoded= null;
     try{
-       decoded =  jwt.verify(token.process.env.JWT_SCRET)
+       decoded =  jwt.verify(token,process.env.JWT_SCRET)
 
     }catch(err){
       return  res.status(401).json({
@@ -73,7 +73,7 @@ async function getPostDetails(req,res){
     let decoded =null;
 
     try{
-      decoded = jwt.verify(token.process.env.JWT_SCRET)
+      decoded = jwt.verify(token,process.env.JWT_SCRET)
 
     }catch(err){
       return res.status(401).json({
