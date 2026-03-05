@@ -8,64 +8,65 @@ const imagekit = ImageKit({
 
 
 
+
+
 async function CreatePost(req,res){
     const token = req.cookies.token;
     let decoded = null;
     try{
         decoded = jwt.verify(token,process.env.IMAGEKIT_PRIVATE_KEY)
-
     }catch(err){
         return res.status(404).json({
-            message:"UnAuthorised user"
+            message:"Unauthorised user"
         })
-
     }
 
-
-    const file = await imagekit.files.upload({
-        file:toFile(Buffer.from(req.files.buffer),"files"),
+    const file = await  imagekit.files.upload({
+        file: toFile(Buffer.from(req.files.buffer),"files"),
         fileName:"files"
     })
-    const post = await postModel.create({
+
+    const post =  await  postModel.create({
         capiton:req.body.capiton,
         imgUrl:file.url,
-        user:decoded.id
+        user:decoded.id,
     })
+
     res.status(201).json({
-        message:"post created successfully",
+        message:"Post created successfully",
         post,
     })
 }
-
+ 
 async function Getpost(req,res){
     const token = req.cookies.token;
+
     if(!token){
         return res.status(404).json({
             message:"Unauthorised user"
         })
     }
-    let decoded= null;
+
+    let decoded=null;
     try{
-        decoded = jwt.verify(token,process.env.IMAGEKIT_PRIVATE_KEY)
+        decoded =  jwt.verify(token,process.env.IMAGEKIT_PRIVATE_KEY)
     }catch(err){
         return res.status(404).json({
-            message:"token invalid r"
+            message:"invalid token id"
         })
+
     }
 
-    const userId = decoded.id;
-    const post  = await postModel.find({
-        user:userId
+    const userId= decoded.id;
+    const post = await postModel.find({
+        user:userId,
     })
+
     res.status(201).json({
         message:"post fetched successfully",
-        post
+        post,
     })
-
-
 }
-
-
 
 
 module.exports= {
