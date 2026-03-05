@@ -1,9 +1,17 @@
 const express =  require("express");
+const postRouter =  express.Router()
 const postModel =  require("../model/post.model")
-const jwt = require("jsonwebtoken");
-const ImageKit = require("@imagekit/nodejs");
-const {tofile} = require("@imagekit/nodejs")
-const imagekit = ImageKit({
-    privateKey: process.env.IMAGEKIT_PRIVATE_KEY
-})
+const postauth = require("../controllers/post.controller")
+const upload = multer({ storage: multer.memoryStorage() })
 
+postRouter.post("/CreatePost", upload.single("image"), postauth.CreatePost)
+postRouter.get("/getPost", postauth.Getpost)
+
+
+
+
+
+
+
+
+module.exports = postauth
