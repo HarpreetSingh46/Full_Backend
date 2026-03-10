@@ -43,6 +43,43 @@ async function RegisterUser(req,res){
 
 }
 
+async  function LoginUser(req,res){
+        const {username , email , password} = req.body;
+
+        const user = await userModel.findOne({
+            $or:[
+                {email},
+                {username}
+            ]
+        })
+
+        if(!user){
+            return res.status(404).json({
+                message:"user is not exisit"
+            })
+        }
+
+        
+        const isMatched = await bcrypt.compare(password , user.password);
+    
+        if(!isMatched){
+            return res.status(404).json({
+                message:"password is wrong"
+            })
+        }
+
+        res.status(202).json({
+            message:"user logged successfully",
+            user:{
+                user:user.username,
+                email:user.email,
+                password:user.password
+            }
+        })
+    }   
+
+
 module.exports={
-    RegisterUser
+    RegisterUser,
+    LoginUser
 }
