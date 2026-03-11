@@ -11,7 +11,11 @@ const userSchema  = new mongoose.Schema({
         unique:[true ,"Email is already required"],
         required:[true ,"Email is required"]
     },
-    password : String,
+    password : {
+        type :String,
+        required:[true ,"Password is required"],
+        select : false
+    }
 })
 
 const userModel  = mongoose.model("user",userSchema);
