@@ -1,0 +1,44 @@
+
+          Road----------Map
+                   |
+                   |
+                   |
+                   |
+                   |
+                   |
+                  \ / 
+
+
+
+
+-  Authentication systme
+-  Chat with AI
+-  Chat History
+-  Message Storage
+-  Ai with Internet Research feature
+
+
+                 userModel
+
+
+                 _id
+                 username
+                 password
+                 verified
+                 createAt
+
+
+                 Chat
+
+                 _id
+                 user
+                 title
+                 createdAt
+                 updatedAt
+
+                 Messages
+
+                 _id
+                 Chat
+                 content
+                 role:[user,Ai]
