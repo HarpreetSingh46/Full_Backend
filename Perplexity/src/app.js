@@ -21,13 +21,8 @@ app.use(cookieParser()); // Parse cookies
 // Routes
 app.use('/api/auth', authRouter);
 
-// Basic health check route
-app.get('/', (req, res) => {
-  res.status(200).json({
-    status: 'OK',
-    message: 'Server is running',
-  });
-});
+
+
 
 
 
