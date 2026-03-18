@@ -99,6 +99,14 @@ export async function login(req, res) {
         });
     }
 
+    if(!user.verified)
+{
+    return res.status(403).json({     
+       message: "Please verify your email before logging in",
+        success: false,
+        err: "Email not verified"
+    }); 
+}
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
     res.status(200).json({

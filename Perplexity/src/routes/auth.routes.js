@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { register } from "../controllers/auth.controller.js";
+import { register , login} from "../controllers/auth.controller.js";
 import { registerValidator, loginValidator } from "../validators/auth.validator.js";
 import { authUser } from "../middleware/auth.middleware.js";
 
@@ -20,7 +20,7 @@ authRouter.post("/register", registerValidator, register);
  * @access Public
  * @body { email, password }
  */
-// authRouter.post("/login", loginValidator, login)
+authRouter.post("/login", loginValidator, login)
 
 
 
