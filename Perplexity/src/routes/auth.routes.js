@@ -29,7 +29,7 @@ authRouter.post("/login", loginValidator, login)
  * @desc Get current logged in user's details
  * @access Private
  */
-// authRouter.get('/get-me', authUser, getMe)
+authRouter.get('/get-me', authUser, getme)
 
 /**
  * @route GET /api/auth/verify-email
