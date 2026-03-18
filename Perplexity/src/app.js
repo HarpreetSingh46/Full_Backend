@@ -1,10 +1,8 @@
  import express from 'express';
 import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
 import authRouter from './routes/auth.routes.js';
 
-// Load environment variables
-dotenv.config();
+
 
 // Create Express app instance
 const app = express();

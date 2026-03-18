@@ -1,30 +1,34 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
-export const verifyToken = (req, res, next) => {
-  try {
-    // Get token from headers
-    const token = req.headers.authorization?.split(' ')[1]; // Bearer <token>
+
+
+
+export function authUser(req, res, next) {
+
+    const token = req.cookies.token;
 
     if (!token) {
-      return res.status(401).json({
-        success: false,
-        message: 'No token provided, authorization denied',
-      });
+        return res.status(401).json({
+            message: "Unauthorized",
+            success: false,
+            err: "No token provided"
+        })
     }
 
-    // Verify token
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET || 'your_jwt_secret_key_here'
-    );
+    try {
 
-    req.user = decoded;
-    next();
-  } catch (error) {
-    res.status(401).json({
-      success: false,
-      message: 'Invalid or expired token',
-      error: error.message,
-    });
-  }
-};
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        req.user = decoded;
+
+        next();
+
+    } catch (err) {
+        return res.status(401).json({
+            message: "Unauthorized",
+            success: false,
+            err: "Invalid token"
+        })
+    }
+
+}
