@@ -6,7 +6,7 @@ import  {body , validationResult} from "express-validator"
             res.status(400).json({
                 errors: errors.array()
             })
-        }
+ }
    
    
    
