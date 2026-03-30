@@ -30,5 +30,4 @@ const docs = await Promise.all(chunks.map(async (chunk)=>{
         embedding
     }
 }))
-
 console.log(docs)
