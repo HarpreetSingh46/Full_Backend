@@ -23,3 +23,15 @@ console.log(typeof str)
 const arr = [1,2,3,4]
 
 const tup: [number ,number,number]= [1,2,2]
+
+function greet(name:String):void{
+     console.log(name + " Good moring")
+}
+
+greet("harpreet")
+
+function greete(name:String):string{
+           return name + " Good moring"
+}
+
+greete("harpreet")
