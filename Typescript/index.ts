@@ -10,3 +10,16 @@ console.log(a+b)
 // console.log(a/b)
 // console.log(a*b)
 
+/*
+    Data types in TS
+    Primitive Data
+    string , number , boolean , array , tuple , void never
+
+*/
+
+const str = "Hello world";
+console.log(typeof str)
+
+const arr = [1,2,3,4]
+
+const tup: [number ,number,number]= [1,2,2]
