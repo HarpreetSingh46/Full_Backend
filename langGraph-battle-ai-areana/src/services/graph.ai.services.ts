@@ -11,4 +11,13 @@ type  AIBATTLESTATE={
     solution_2: string;
     judgement: JUDGEMENT;
 }
-
+const state: AIBATTLESTATE={
+        messages:MessagesValue,
+        solution_1:"",
+        solution_2:"",
+        judgement:{
+            winner:"solution_1",
+            solution_1_score:0,
+            solution_2_score:0,
+        }
+}
