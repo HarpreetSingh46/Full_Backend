@@ -5,68 +5,70 @@ import { MonacoBinding } from "y-monaco";
 import * as Y from "yjs";
 import { SocketIOProvider } from "y-socket.io";
 import { Editor } from "@monaco-editor/react";
+import { use } from "react";
+
 const App = () => {
   const editorRef = useRef(null);
   const [username, setusername] = useState(() => {
     return new URLSearchParams(window.location.search).get("username") || "";
   });
 
-
-  const  [users,setusers]  = useState([])
-
-
-
-
-
-
-
+  const [users, setusers] = useState([]);
 
   const ydoc = useMemo(() => new Y.Doc(), []);
   const yText = useMemo(() => ydoc.getText("monaco"), [ydoc]);
 
   const handleMount = (editor) => {
     editorRef.current = editor;
+    new MonacoBinding(
+      yText,
+      editorRef.current.getModel(),
+      new Set([editorRef.current])
+    );
   };
 
   useEffect(() => {
-    if (username && editorRef.current) {
+    if (username) {
       const provider = new SocketIOProvider(
         "http://localhost:3000",
         "monaco",
         ydoc,
         {
           autoConnect: true,
-        },
+        }
       );
 
-      provider.awareness.setLocalStateField("user",{ username})
-      provider.awareness.on("change",()=>{
+      provider.awareness.setLocalStateField("user", { username });
 
-        const states = Array.from(provider.awareness.getStates().values())
-        setusers(states.map(state=> state.user).filter(user=> Boolean(user.username)))
+      const states = Array.from(provider.awareness.getStates().values());
 
-      })
+      setusers(
+        states
+          .filter(state => state.user && state.user.username)
+          .map(state => state.user)
+      );
 
-      function handleBeforeUnload(){
-        provider.awareness.setLocalStateField("user",null)
+      provider.awareness.on("change", () => {
+        const states = Array.from(provider.awareness.getStates().values());
+
+        setusers(
+          states
+            .filter(state => state.user && state.user.username)
+            .map(state => state.user)
+        );
+      });
+
+      function handleBeforeUnload() {
+        provider.awareness.setLocalStateField("user", null);
       }
-      window.addEventListener("beforeunload",handleBeforeUnload)
+      window.addEventListener("beforeunload", handleBeforeUnload);
 
-
-
-      const monacoBinding = new MonacoBinding(
-        yText,
-        editorRef.current.getModel(),
-        new Set([editorRef.current]),
-        provider.awareness,
-      )
-        return ()=>{
-          monacoBinding.destroy()
-          provider.disconnect()
-          window.removeEventListener("beforeunload",handleBeforeUnload)
-        }
+      return () => {
+        provider.disconnect();
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      };
     }
-  }, [editorRef.current, username]);
+  }, [username]);
 
   const handleJoin = (e) => {
     e.preventDefault();
@@ -81,22 +83,37 @@ const App = () => {
           <input
             type="text"
             placeholder="Enter your username"
-            className="p-2
-           rounded-lg bg-gray-800 text-white"
+            className="p-2 rounded-lg bg-gray-800 text-white"
             name="username"
           />
-          <button className="p-2  rounded-lg bg-amber-50 text-gray-950 font-bold">
+          <button className="p-2 rounded-lg bg-amber-50 text-gray-950 font-bold">
             JOIN
           </button>
         </form>
       </main>
     );
   }
+
   return (
     <div>
-      <main className="h-screen p-4 w-full flex gap-4  bg-gray-950">
-        <aside className="h-full  rounded-lg w-2/5 bg-amber-50"></aside>
-        <section className="w-3/4 overflow-hidden rounded-lg bg-neutral-800  ">
+      <main className="h-screen p-4 w-full flex gap-4 bg-gray-950">
+        <aside className="h-full rounded-lg w-2/5 bg-amber-50">
+          <h2 className="text-2xl font-bold p-4 border-b border-gray-300">
+            Users
+          </h2>
+          <ul className="p-4">
+            {users.map((user, index) => (
+              <li
+                key={index}
+                className="p-2 bg-gray-800 text-white rounded mb-2"
+              >
+                {user.username}
+              </li>
+            ))}
+          </ul>
+        </aside>
+
+        <section className="w-3/4 overflow-hidden rounded-lg bg-neutral-800">
           <Editor
             height="100%"
             defaultLanguage="javascript"
