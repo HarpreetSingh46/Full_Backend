@@ -1,25 +1,18 @@
-import express from 'express';
-import morgan from 'morgan';
-import dotenv from 'dotenv';
-import cookieParser from 'cookie-parser';
-import connectDB from './config/database.js';
-
-dotenv.config();
+import express from "express";
+import cookieParser from "cookie-parser";
+import morgan from "morgan";
 
 const app = express();
 
-// Middleware
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Routes
-app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to Snitch API' });
+app.get("/", (_req, res) => {
+    res.status(200).json({ message: "Server is running" });
 });
 
-// Connect to MongoDB
-connectDB();
+
 
 export default app;
