@@ -8,7 +8,16 @@ import {config} from '../config/config.js';
         const token = jwt.sign({ id: user._id }, config.JWT_SECRET, {
             expiresIn: "1d",
         });
-        res.status(200).json({ "token": token });
+        res.status(200).json({ 
+            "token": token,
+            user:{
+                id: user._id,
+                fullName: user.fullName,
+                email: user.email,
+                contact: user.contact  ,
+                role: user.role 
+            }
+        });
 }
 
 
