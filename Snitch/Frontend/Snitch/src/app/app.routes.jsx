@@ -1,8 +1,8 @@
-import { createBrowserRouter } from "react-router";
-import App from "./App";
+
+import { createBrowserRouter } from "react-router-dom";
 import Register from "../features/auth/pages/Register";
 
-export const router = createBrowserRouter([
+const routes = createBrowserRouter([
     {
         path: "/",
         element: <h1>Hello world</h1>
@@ -11,4 +11,7 @@ export const router = createBrowserRouter([
         path: "/register",
         element: <Register />
     }
-])
+]);
+
+
+export default routes;
