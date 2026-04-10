@@ -1,9 +1,12 @@
 import React from 'react'
+import { RouterProvider } from 'react-router'
 import './App.css'
+import { routes } from "./app.routes"
 const App = () => {
   return (
     <div>
-      <h1 className='font-bold text-3xl underline'>hlo world</h1>
+      <RouterProvider router={routes} />
+
     </div>
   )
 }
