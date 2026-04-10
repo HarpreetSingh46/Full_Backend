@@ -1,13 +1,13 @@
 import {Router} from 'express';
 import { validateRegister } from '../validators/auth.validator.js';
+import {register} from '../controllers/auth.controller.js';
 const router = Router();
 
 
-router.post("/Register", validateRegister, (req, res) => {
-        const{fullName, email, password,contact} = req.body;
+router.post("/register", validateRegister, register);
 
 
-});
+
 
 
 

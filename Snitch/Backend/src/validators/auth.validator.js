@@ -13,7 +13,7 @@ export const  validateRegister = [
     body("email").isEmail().withMessage("Invalid email address"),
     body("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters long"),
     body("contact").isLength({ min: 10, max: 15 }).withMessage("Invalid contact number").notEmpty().withMessage("Contact number is required"),
-
+    body("isSeller").isBoolean().withMessage("isSeller must be a boolean value").notEmpty().withMessage("isSeller must be a boolean value"),
     validateRequest
 ];
 
