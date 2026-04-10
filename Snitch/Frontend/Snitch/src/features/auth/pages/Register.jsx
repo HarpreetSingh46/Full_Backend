@@ -93,22 +93,14 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setError('')
-
-    if (!form.fullname || !form.email || !form.contact || !form.password) {
-      setError('Please fill in all fields.')
-      return
-    }
-
-    try {
-      setLoading(true)
-      await handleRegister(form)
-      navigate('/')
-    } catch (err) {
-      setError(err?.message || 'Registration failed. Please try again.')
-    } finally {
-      setLoading(false)
-    }
+    await  handleRegister({
+      email: form.email,
+      contact: form.contact,
+      password: form.password,
+      fullname: form.fullname,
+      isSeller: form.isSeller
+    })
+    
   }
 
   return (
