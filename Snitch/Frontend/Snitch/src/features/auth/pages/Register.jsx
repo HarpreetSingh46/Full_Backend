@@ -75,7 +75,7 @@ const Register = () => {
   const { handleRegister } = userAuth()
 
   const [form, setForm] = useState({
-    fullname: '',
+    username: '',
     email: '',
     contact: '',
     password: '',
@@ -92,14 +92,26 @@ const Register = () => {
     }))
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    await  handleRegister({
+  e.preventDefault()
+  setLoading(true)
+  setError('')
+
+  try {
+    await handleRegister({
       email: form.email,
       contact: form.contact,
       password: form.password,
-      fullname: form.fullname,
+      username: form.username, 
       isSeller: form.isSeller
     })
+
+
+  } catch (err) {
+    console.log(err.response?.data)
+    setError(err.response?.data?.message || 'Registration failed')
+  } finally {
+    setLoading(false)
+  }
     
   }
 
@@ -133,12 +145,12 @@ const Register = () => {
         {/* Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
           <InputField
-            id="fullname"
-            label="Full Name"
-            placeholder="John Doe"
+            id="username"
+            label="Username"
+            placeholder="john_doe"
             icon={<UserIcon />}
-            value={form.fullname}
-            onChange={update('fullname')}
+            value={form.username}
+            onChange={update('username')}
           />
 
           <InputField
