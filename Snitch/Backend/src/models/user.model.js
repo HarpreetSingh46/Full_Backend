@@ -19,11 +19,17 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: [ true, "Password is required"],
+        required:function() {
+            return !this.googleId;
+        },
+    },
+
+    googleId: {
+        type: String,
     },
     contact:{
         type: String,
-        required: [ true, "Contact is required"],
+        required: [ false, "Contact is required"],
     }
 }, { timestamps: true });
 

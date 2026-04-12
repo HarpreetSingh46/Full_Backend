@@ -10,7 +10,7 @@ authRouter.post("/login", validateLogin, loginUser);
 
 authRouter.get("/google",
      passport.authenticate("google", { scope: ["profile", "email"] }));
-authRouter.get("/google/callback", passport.authenticate("google",{session: false}),
+authRouter.get("/google/callback", passport.authenticate("google",{session: false ,failureRedirect: "http://localhost:5173/login"}  ),
 googleCallback,
 
 );

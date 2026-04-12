@@ -75,29 +75,34 @@ export const loginUser = async (req, res) => {
 
     await sendTokenResponse(user, res, "Login successful")
 
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 
 export const googleCallback = async (req, res) => {
-    // This function will be called after successful authentication with Google
-    // You can access the user's profile information from req.user
-    const userProfile = req.user;   
-    console.log(userProfile)
+    const { id, emails, displayName, photos } = req.user;   
+
+    const email = emails[0].value;
+    const username = displayName;
+    const profilePicture = photos[0].value;
+
+    let user = await userModel.findOne({ email })
+
+    if (!user) {
+         newUser = await userModel.create({
+            email,
+            username: username,
+            googleId: id,
+           
+        })
+        
+    }
+
+    const token = jwt.sign({
+        id: user._id,
+    }, config.JWT_SECRET, {
+        expiresIn: "7d"
+    })
+    res.cookie("token", token)
     res.redirect("http://localhost:5173/")
 
     // Here you would typically find or create a user in your database based on the Google profile information
