@@ -91,3 +91,15 @@ export const loginUser = async (req, res) => {
 
 
 }
+
+
+export const googleCallback = async (req, res) => {
+    // This function will be called after successful authentication with Google
+    // You can access the user's profile information from req.user
+    const userProfile = req.user;   
+    console.log(userProfile)
+    
+    // Here you would typically find or create a user in your database based on the Google profile information
+    // For this example, we'll just return the profile information as a response
+    res.json({ message: "Google login successful", profile: userProfile });
+}
