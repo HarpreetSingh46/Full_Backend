@@ -98,7 +98,8 @@ export const googleCallback = async (req, res) => {
     // You can access the user's profile information from req.user
     const userProfile = req.user;   
     console.log(userProfile)
-    
+    res.redirect("http://localhost:5173/")
+
     // Here you would typically find or create a user in your database based on the Google profile information
     // For this example, we'll just return the profile information as a response
     res.json({ message: "Google login successful", profile: userProfile });
