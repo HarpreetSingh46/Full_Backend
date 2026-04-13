@@ -1,6 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+import ProductRouter from "./routes/product.route.js";
 import authRoutes from "./routes/auth.route.js";
 // import cors from "cors";
 const app = express();
@@ -35,6 +36,8 @@ app.use(cookieParser());
 app.get("/", (req, res) => {
     res.status(200).json({ message: "Server is running" });
 });
+
+app.use("/api/products", ProductRouter);
 
 app.use("/api/auth", authRoutes);
 
