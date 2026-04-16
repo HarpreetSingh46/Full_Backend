@@ -7,7 +7,7 @@ import authRoutes from "./routes/auth.route.js";
 const app = express();
 import { config } from "./config/config.js";
 import passport from "passport";
-import {Strategy as GoogleStrategy} from "passport-google-oauth20"
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -18,28 +18,29 @@ app.use(cookieParser());
 //     credentials: true,
 // }));
 
-    app.use(passport.initialize());
+app.use(passport.initialize());
 
-    passport.use(new GoogleStrategy({
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "/api/auth/google/callback",
-    }, (accessToken, refreshToken, profile, done) => {
-        // Here you would typically find or create a user in your database
-        // For this example, we'll just return the profile
-        return done(null, profile);
-    }));
-
-
-
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "/api/auth/google/callback",
+    },
+    (accessToken, refreshToken, profile, done) => {
+      // Here you would typically find or create a user in your database
+      // For this example, we'll just return the profile
+      return done(null, profile);
+    },
+  ),
+);
 
 app.get("/", (req, res) => {
-    res.status(200).json({ message: "Server is running" });
+  res.status(200).json({ message: "Server is running" });
 });
 
 app.use("/api/products", ProductRouter);
 
 app.use("/api/auth", authRoutes);
-
 
 export default app;
