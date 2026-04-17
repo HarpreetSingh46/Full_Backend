@@ -1,8 +1,9 @@
 import {Router} from 'express';
 import {validateRegister, validateLogin} from "../validators/auth.validator.js";
-import {register,loginUser, googleCallback} from '../controllers/auth.controller.js';
+import {register,loginUser, googleCallback, getMe} from '../controllers/auth.controller.js';
 
  import passport from "passport";
+import { authenticateUser } from '../middleware/auth.middleware.js';
 const authRouter = Router();
 
 authRouter.post("/register", validateRegister, register);
@@ -15,7 +16,7 @@ googleCallback,
 
 );
 
-
+authRouter.get("/me", authenticateUser,getMe);
 export default authRouter;
 
 

@@ -109,3 +109,18 @@ export const googleCallback = async (req, res) => {
     // For this example, we'll just return the profile information as a response
     res.json({ message: "Google login successful", profile: userProfile });
 }
+
+
+export const getMe = async (req, res) => {
+    const user = req.user;
+    res.status(200).json({  
+        success: true,
+        user: {
+            id: user._id,
+            email: user.email,
+            contact: user.contact,
+            username: user.username,    
+            role: user.role
+        }
+    })
+}
