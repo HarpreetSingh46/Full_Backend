@@ -10,7 +10,7 @@ export const useProduct = () => {
         const data = await createProduct(formdata)
         return data.product;
     }
-    async function handleGetSellerProduct(formdata) {
+    async function handleGetSellerProduct() {
         const data = await getSellerProduct()
         dispatch(setSellerProduct(data.products))
         return data.products
