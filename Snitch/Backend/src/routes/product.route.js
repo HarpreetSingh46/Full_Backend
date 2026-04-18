@@ -15,7 +15,7 @@ const upload = multer({
 
 
  
-ProductRouter.post("/", authenticateSeller, createProductValidator ,  upload.array("images", 7 )   , createProduct);
+ProductRouter.post("/", authenticateSeller,  upload.array("images", 7 ) ,createProductValidator   , createProduct);
 
 ProductRouter.get("/seller", authenticateSeller , GetSellerProducts)
 

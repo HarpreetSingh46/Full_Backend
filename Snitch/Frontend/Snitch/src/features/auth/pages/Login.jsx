@@ -77,8 +77,15 @@ const Login = () => {
     setError('')
 
     try {
-      await handleLogin({ email: form.email, password: form.password })
-      navigate('/')
+    const user =   await handleLogin({ email: form.email, password: form.password })
+      if(user.role=="buyer"){
+        navigate('/')
+      }else if(user.role=="seller"){
+        navigate('/seller/dashboard')
+      }else{
+        navigate('/')
+      }
+    
     } catch (err) {
       console.log(err.response?.data)
       setError(err.response?.data?.message || 'Invalid email or password')
