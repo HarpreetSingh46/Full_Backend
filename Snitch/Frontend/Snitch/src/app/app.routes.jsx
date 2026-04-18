@@ -5,11 +5,11 @@ import Login from "../features/auth/pages/Login";
 import CreateProduct from "../features/products/pages/createProduct";
 import Dashboard from "../features/products/pages/Dashboard";
 import Protected from "../features/auth/component/Protected";
-
+import Home from "../features/products/pages/Home";
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: <h1>Hello world</h1>,
+    element: <Home />,
   },
 
   {
