@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-
+import ProductDetail from "../features/products/pages/ProductDetail"; 
 import Register from "../features/auth/pages/Register";
 import Login from "../features/auth/pages/Login";
 import CreateProduct from "../features/products/pages/createProduct";
@@ -21,7 +21,10 @@ const routes = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
-
+{
+  path:"/product/:productId",
+  element:<ProductDetail /> 
+},
   // ✅ Seller Protected Routes
   {
     path: "/seller",

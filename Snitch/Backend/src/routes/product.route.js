@@ -1,7 +1,7 @@
 import express from "express";
 import { authenticateSeller } from "../middleware/auth.middleware.js";
 import multer from "multer";
-import { createProduct, GetAllProducts } from "../controllers/product.controller.js";
+import { createProduct, GetAllProducts ,getProductDetail} from "../controllers/product.controller.js";
 import { createProductValidator } from "../validators/product.validator.js";
 import {GetSellerProducts} from "../controllers/product.controller.js "
 const ProductRouter = express.Router();
@@ -19,8 +19,8 @@ ProductRouter.post("/", authenticateSeller,  upload.array("images", 7 ) ,createP
 
 ProductRouter.get("/seller", authenticateSeller , GetSellerProducts)
 
-    ProductRouter.get("/",GetAllProducts)    
+ProductRouter.get("/",GetAllProducts)    
 
-
+ProductRouter.get("/detail/:id", getProductDetail)
 
 export default ProductRouter
