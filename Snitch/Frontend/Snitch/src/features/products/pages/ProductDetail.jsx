@@ -117,12 +117,12 @@ const StarIcon = ({ filled }) => (
   </svg>
 )
 const SunIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+  <svg xmlns="http://www.w3.org/2000/svg" className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
   </svg>
 )
 const MoonIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+  <svg xmlns="http://www.w3.org/2000/svg" className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
   </svg>
 )
@@ -150,7 +150,7 @@ function ThemeToggle() {
         {isDark && (
           <>
             <span className="absolute w-0.5 h-0.5 rounded-full bg-white/40 top-2 left-2 animate-pulse" style={{ animationDelay: '0ms' }} />
-            <span className="absolute w-[3px] h-[3px] rounded-full bg-white/30 top-4 left-5 animate-pulse" style={{ animationDelay: '400ms' }} />
+            <span className="absolute w-0.75 h-0.75 rounded-full bg-white/30 top-4 left-5 animate-pulse" style={{ animationDelay: '400ms' }} />
             <span className="absolute w-0.5 h-0.5 rounded-full bg-white/50 top-1.5 left-8 animate-pulse" style={{ animationDelay: '800ms' }} />
           </>
         )}
@@ -195,7 +195,7 @@ function Skeleton() {
             <div className="flex flex-col gap-3">
               {[...Array(4)].map((_, i) => <div key={i} className="w-16 h-20 rounded-lg" style={{ backgroundColor: t.skeletonBg }} />)}
             </div>
-            <div className="flex-1 aspect-[3/4] rounded-2xl" style={{ backgroundColor: t.skeletonBg }} />
+            <div className="flex-1 aspect-3/4 rounded-2xl" style={{ backgroundColor: t.skeletonBg }} />
           </div>
           <div className="flex flex-col gap-6">
             {[['2/3', 8], ['full', 4], ['3/4', 4], ['1/3', 10]].map(([w, h], i) => (
@@ -358,12 +358,12 @@ const ProductDetailInner = () => {
           <div className="flex gap-3 sm:gap-4">
             {/* Thumbnails */}
             {images.length > 1 && (
-              <div className="flex flex-col gap-2.5 flex-shrink-0">
+              <div className="flex flex-col gap-2.5 shrink-0">
                 {images.map((img, i) => (
                   <button
                     key={img._id}
                     onClick={() => setActiveImg(i)}
-                    className="w-14 sm:w-16 h-[72px] sm:h-20 rounded-lg overflow-hidden flex-shrink-0 transition-all duration-300"
+                    className="w-14 sm:w-16 h-18 sm:h-20 rounded-lg overflow-hidden shrink-0 transition-all duration-300"
                     style={{
                       border: `2px solid ${i === activeImg ? t.accent : 'transparent'}`,
                       opacity: i === activeImg ? 1 : 0.6,
@@ -378,7 +378,7 @@ const ProductDetailInner = () => {
 
             {/* Main Image */}
            <div
-  className="relative flex-1 aspect-[3/4] rounded-2xl overflow-hidden transition-colors duration-500"
+  className="relative flex-1 aspect-3/4 rounded-2xl overflow-hidden transition-colors duration-500"
   style={{ backgroundColor: t.card }}
 >
   {images.length > 0 ? (
@@ -594,7 +594,7 @@ const ProductDetailInner = () => {
                 <button
                   key={img._id}
                   onClick={() => { setActiveImg(i); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
-                  className="flex-shrink-0 snap-center w-28 h-36 rounded-xl overflow-hidden transition-all duration-300"
+                  className="shrink-0 snap-center w-28 h-36 rounded-xl overflow-hidden transition-all duration-300"
                   style={{
                     border: `2px solid ${i === activeImg ? t.accent : 'transparent'}`,
                     opacity: i === activeImg ? 1 : 0.7,
