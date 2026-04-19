@@ -423,7 +423,7 @@ const SellerProductDetail = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
                     {/* Visuals */}
                     <div className="lg:col-span-5 flex flex-col gap-4">
-                        <div className="aspect-[3/4] rounded-3xl overflow-hidden bg-[#1c1b1b] border border-[#2a2a2a]">
+                        <div className="aspect-3/4 rounded-3xl overflow-hidden bg-[#1c1b1b] border border-[#2a2a2a]">
                             <img
                                 src={product.images?.[activeImage]?.url}
                                 alt={product.title}
