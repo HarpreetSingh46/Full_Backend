@@ -358,7 +358,7 @@ const SellerProductDetail = () => {
 
   
 }, [productId])
-console.log(product)
+
 
   const onUpdateStock = async (prodId, variantId, stock) => {
     try {

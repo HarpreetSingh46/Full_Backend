@@ -34,6 +34,10 @@ export const useProduct = () => {
         const data = await updateVariantStock(productId, variantId, stock)
         return data.product
     }
+    async function  handleAddProductVariant(productId, newProductVariant) {
+        const data = await addProductVariant(productId, newProductVariant)
+        return data.product
+    }
 
     return {
         handleCreateProduct,
@@ -42,6 +46,7 @@ export const useProduct = () => {
         handleGetProductById,
         handleAddVariant,
         handleUpdateStock,
+        handleAddProductVariant
     }
 }
     

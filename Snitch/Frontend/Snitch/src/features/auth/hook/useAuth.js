@@ -36,7 +36,26 @@ export const userAuth = () => {
             dispatch(setLoading(false))
         }
     }
-    return { handleRegister, handleLogin, handleGetMe }
+
+    async function  handleAddProductVariant(productId, newProductVariant) {
+        try {
+            dispatch(setLoading(true))
+            const data = await addProductVariant(productId, newProductVariant)
+            dispatch(setLoading(false))
+            return data
+        } catch (error) {
+            dispatch(setError(error.message))
+            dispatch(setLoading(false))
+            console.log(error)
+        } finally {
+            dispatch(setLoading(false))
+        }
+    }
+
+
+
+
+    return { handleAddProductVariant, handleRegister, handleLogin, handleGetMe }
 
 
 }
