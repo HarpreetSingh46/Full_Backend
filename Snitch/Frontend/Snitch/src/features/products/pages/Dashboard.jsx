@@ -360,7 +360,9 @@ const Dashboard = () => {
                         )}
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                             {filteredProducts.map((product) => (
-                                <ProductCard key={product._id} product={product} />
+                                <div key={product._id} onClick={() => navigate(`/seller/product/${product._id}`)} className="cursor-pointer">
+                                    <ProductCard product={product} />
+                                </div>
                             ))}
                         </div>
                     </>

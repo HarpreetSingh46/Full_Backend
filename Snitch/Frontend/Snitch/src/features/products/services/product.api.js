@@ -26,3 +26,13 @@ export async function getProductById(productId) {
     const response = await productApiInstance.get(`/detail/${productId}`)
     return response.data
 }
+
+export async function addVariant(productId, formData) {
+    const response = await productApiInstance.post(`/${productId}/variants`, formData)
+    return response.data
+}
+
+export async function updateVariantStock(productId, variantId, stock) {
+    const response = await productApiInstance.patch(`/${productId}/variants/${variantId}`, { stock })
+    return response.data
+}
