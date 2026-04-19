@@ -349,7 +349,6 @@ const SellerProductDetail = () => {
         setLoading(false)
     }
 }
-
    useEffect(() => {
    
 
@@ -359,6 +358,7 @@ const SellerProductDetail = () => {
 
   
 }, [productId])
+console.log(product)
 
   const onUpdateStock = async (prodId, variantId, stock) => {
     try {
@@ -375,12 +375,14 @@ const SellerProductDetail = () => {
     }
 }
 
-    const onAddVariant = async (pid, formData) => {
+ const onAddVariant = async (pid, formData) => {
     try {
-        await handleAddVariant(pid, formData)
+        const res = await handleAddVariant(pid, formData)
         await fetchProduct()
+        return res   
     } catch (err) {
         console.error('Add variant failed', err)
+        throw err    
     }
 }
 
