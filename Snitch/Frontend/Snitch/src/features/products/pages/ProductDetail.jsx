@@ -1,7 +1,7 @@
 import React, { useEffect, useState, createContext, useContext } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useProduct } from '../hook/userproduct'
-
+import { useCart } from '../../cart/hook/useCart'
 /* ─── Theme Context ─── */
 const ThemeContext = createContext()
 const useTheme = () => useContext(ThemeContext)
@@ -176,12 +176,17 @@ function ThemeToggle() {
   )
 }
 
-/* ─── Helpers ─── */
 function formatPrice(amount, currency = 'INR') {
   const symbols = { INR: '₹', USD: '$', EUR: '€', GBP: '£' }
   return `${symbols[currency] || currency}${Number(amount).toLocaleString('en-IN')}`
 }
-const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
+
+/* ─── Utils ─── */
+const getAttrValue = (variant, key) => {
+  if (!variant?.attributes) return null
+  if (typeof variant.attributes.get === 'function') return variant.attributes.get(key)
+  return variant.attributes[key]
+}
 
 /* ─── Skeleton ─── */
 function Skeleton() {
@@ -278,15 +283,14 @@ const ProductDetailInner = () => {
   const { productId } = useParams()
   const { handleGetProductById } = useProduct()
   const { t, mode } = useTheme()
+  const { handleAddItem } = useCart()
 
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const [activeImg, setActiveImg] = useState(0)
-  const [selectedSize, setSelectedSize] = useState(null)
+  const [selectedAttributes, setSelectedAttributes] = useState({})
   const [quantity, setQuantity] = useState(1)
   const [wishlisted, setWishlisted] = useState(false)
-  const [zoomStyle, setZoomStyle] = useState({})
-  const [isZooming, setIsZooming] = useState(false)
   const [addedToCart, setAddedToCart] = useState(false)
 
   useEffect(() => {
@@ -302,6 +306,96 @@ const ProductDetailInner = () => {
     }
     fetch()
   }, [productId])
+
+  const availableAttributes = React.useMemo(() => {
+    if (!product?.variants) return {}
+    const attrs = {}
+    product.variants.forEach(v => {
+      Object.entries(v.attributes || {}).forEach(([key, value]) => {
+        if (!attrs[key]) attrs[key] = new Set()
+        attrs[key].add(value)
+      })
+    })
+    const result = {}
+    Object.keys(attrs).forEach(key => {
+      result[key] = Array.from(attrs[key])
+    })
+    return result
+  }, [product])
+
+  const selectedVariant = React.useMemo(() => {
+    if (!product?.variants || product.variants.length === 0) return null
+    
+    // 1. Try to find a perfect match (all selected attributes match the variant exactly)
+    const perfectMatch = product.variants.find(v => {
+      const vAttrs = v.attributes || {}
+      const vKeys = Object.keys(vAttrs)
+      const selectedKeys = Object.keys(selectedAttributes)
+      
+      // Must match all currently selected attributes
+      const matchesSelection = selectedKeys.every(key => {
+        const vVal = getAttrValue(v, key)
+        return vVal?.toString().toLowerCase() === selectedAttributes[key]?.toString().toLowerCase()
+      })
+      if (!matchesSelection) return false
+
+      // Ideally, it should also have no extra attributes that we haven't selected
+      // but if it's the only one matching the selection so far, it's our best bet.
+      return true
+    })
+
+    return perfectMatch
+  }, [product, selectedAttributes])
+
+  const isSelectionComplete = React.useMemo(() => {
+    if (!selectedVariant) return false
+    // A selection is complete if the selectedVariant has no attributes that aren't in selectedAttributes
+    const vAttrs = selectedVariant.attributes || {}
+    return Object.keys(vAttrs).every(key => !!selectedAttributes[key])
+  }, [selectedVariant, selectedAttributes])
+
+  const images = React.useMemo(() => {
+    const baseImages = product?.images || []
+    const variantImages = selectedVariant?.images || []
+    const combined = [...baseImages, ...variantImages]
+    return combined.length > 0 ? combined : [{ url: 'placeholder', _id: 'p1' }] // Fallback
+  }, [product, selectedVariant])
+
+  // Security check for active image bounds
+  useEffect(() => {
+    if (activeImg >= images.length) {
+      setActiveImg(0)
+    }
+  }, [images.length])
+
+  useEffect(() => {
+    if (isSelectionComplete && selectedVariant?.images?.length > 0) {
+      const baseImagesCount = product?.images?.length || 0
+      setActiveImg(baseImagesCount)
+    }
+  }, [selectedVariant, isSelectionComplete, product?.images?.length])
+
+  const isOptionAvailable = (attrKey, val) => {
+    if (!product?.variants) return true
+    return product.variants.some(v => {
+      return Object.entries(selectedAttributes).every(([k, vVal]) => {
+        if (k === attrKey) return true
+        const attrVal = getAttrValue(v, k)
+        return attrVal?.toString().toLowerCase() === vVal?.toString().toLowerCase()
+      }) && getAttrValue(v, attrKey)?.toString().toLowerCase() === val?.toString().toLowerCase()
+    })
+  }
+
+  const handleAttributeClick = (key, val) => {
+    setSelectedAttributes(prev => {
+      if (prev[key] === val) {
+        const next = { ...prev }
+        delete next[key]
+        return next
+      }
+      return { ...prev, [key]: val }
+    })
+  }
   console.log(product)
 
   // const handleMouseMove = (e) => {
@@ -311,10 +405,38 @@ const ProductDetailInner = () => {
   //   setZoomStyle({ transformOrigin: `${x}% ${y}%` })
   // }
 
-  const handleAddToCart = () => {
+
+  const handleAddToCart = async () => {
+    if (!isSelectionComplete) {
+      // Determine which attribute is missing for the CURRENTLY matched best variant
+      const missingAttr = selectedVariant 
+        ? Object.keys(selectedVariant.attributes || {}).find(k => !selectedAttributes[k])
+        : Object.keys(availableAttributes)[0]
+      
+      alert(`Please select ${missingAttr || 'all options'}`)
+      return
+    }
+
+    if (!selectedVariant) {
+      alert("Selected combination is not available")
+      return
+    }
+
+    if (selectedVariant.stock <= 0) {
+      alert("This variant is out of stock")
+      return
+    }
+
+    await handleAddItem({
+      productId: product._id,
+      variantId: selectedVariant._id
+    })
+
     setAddedToCart(true)
     setTimeout(() => setAddedToCart(false), 2000)
   }
+
+  // बाकी पूरा code same रहेगा (no other changes)
 
   if (loading) return (
     <div className="min-h-screen transition-colors duration-500" style={{ backgroundColor: t.bg }}>
@@ -332,7 +454,6 @@ const ProductDetailInner = () => {
     </div>
   )
 
-  const images = product.images || []
   const price = product.price || {}
 
   return (
@@ -377,33 +498,26 @@ const ProductDetailInner = () => {
             )}
 
             {/* Main Image */}
-           <div
-  className="relative flex-1 aspect-3/4 rounded-2xl overflow-hidden transition-colors duration-500"
-  style={{ backgroundColor: t.card }}
->
-  {images.length > 0 ? (
-    <img
-      src={images[activeImg]?.url}
-      alt={product.title}
-      className="w-full h-full object-cover"
-      loading="eager"
-    />
-  ) : (
-    <div className="w-full h-full flex items-center justify-center" style={{ color: t.textMuted }}>
-      <svg xmlns="http://www.w3.org/2000/svg" className="w-16 h-16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z" />
-      </svg>
-    </div>
-  )}
+            <div
+              className="relative flex-1 aspect-3/4 rounded-2xl overflow-hidden transition-colors duration-500"
+              style={{ backgroundColor: t.card }}
+            >
+                <img
+                  src={images[activeImg]?.url === 'placeholder' ? '/placeholder-product.png' : images[activeImg]?.url}
+                  alt={product.title}
+                  className="w-full h-full object-cover"
+                  loading="eager"
+                  onError={(e) => { e.target.src = 'https://via.placeholder.com/600x800?text=No+Image' }}
+                />
 
-  {/* Counter */}
-  {images.length > 1 && (
-    <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/50 backdrop-blur-sm text-xs text-white/80">
-      {activeImg + 1} / {images.length}
-    </div>
-  )}
-</div>
-          </div> 
+              {/* Counter */}
+              {images.length > 1 && (
+                <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/50 backdrop-blur-sm text-xs text-white/80">
+                  {activeImg + 1} / {images.length}
+                </div>
+              )}
+            </div>
+          </div>
 
           {/* ── RIGHT — Product Info ── */}
           <div className="flex flex-col gap-6">
@@ -429,11 +543,13 @@ const ProductDetailInner = () => {
             {/* Price */}
             <div className="flex items-baseline gap-3">
               <span className="text-3xl font-bold" style={{ color: t.accent, letterSpacing: '-0.02em' }}>
-                {formatPrice(price.amount, price.currency)}
+                {formatPrice(selectedVariant?.price?.amount || price.amount, selectedVariant?.price?.currency || price.currency)}
               </span>
-              <span className="text-sm line-through" style={{ color: t.textMuted }}>
-                {formatPrice(Math.round(price.amount * 1.25), price.currency)}
-              </span>
+              {(selectedVariant?.price?.amount || price.amount) < (price.amount * 1.25) && (
+                <span className="text-sm line-through" style={{ color: t.textMuted }}>
+                  {formatPrice(Math.round((selectedVariant?.price?.amount || price.amount) * 1.25), selectedVariant?.price?.currency || price.currency)}
+                </span>
+              )}
               <span className="px-2 py-0.5 rounded-full text-xs font-semibold transition-colors duration-500"
                 style={{ backgroundColor: t.badgeBg, color: t.accent }}>
                 20% OFF
@@ -452,37 +568,61 @@ const ProductDetailInner = () => {
               </p>
             </div>
 
-            {/* Size Selector */}
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <p className="text-xs font-medium uppercase tracking-widest transition-colors duration-500" style={{ color: t.textSecondary }}>
-                  Select Size
-                </p>
-                <button className="text-xs underline underline-offset-2 transition-colors duration-300" style={{ color: `${t.accent}b3` }}
-                  onMouseEnter={e => e.target.style.color = t.accent}
-                  onMouseLeave={e => e.target.style.color = `${t.accent}b3`}
-                >
-                  Size Guide
-                </button>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {SIZES.map(size => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className="w-12 h-12 rounded-lg text-sm font-medium transition-all duration-300 active:scale-95"
-                    style={{
-                      backgroundColor: selectedSize === size ? t.sizeActive : t.sizeIdle,
-                      color: selectedSize === size ? t.sizeActiveTxt : t.sizeIdleTxt,
-                      transform: selectedSize === size ? 'scale(1.05)' : 'scale(1)',
-                      boxShadow: selectedSize === size ? `0 0 16px ${t.accent}4d` : 'none',
-                      border: `1px solid ${selectedSize === size ? 'transparent' : t.border}`,
-                    }}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
+            {/* Dynamic Variant Selectors */}
+            <div className="flex flex-col gap-6">
+              {Object.entries(availableAttributes).map(([attrKey, attrValues]) => (
+                <div key={attrKey}>
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-xs font-medium uppercase tracking-widest transition-colors duration-500" style={{ color: t.textSecondary }}>
+                      Select {attrKey}
+                    </p>
+                    {attrKey.toLowerCase() === 'size' && (
+                      <button className="text-xs underline underline-offset-2 transition-colors duration-300" style={{ color: `${t.accent}b3` }}
+                        onMouseEnter={e => e.target.style.color = t.accent}
+                        onMouseLeave={e => e.target.style.color = `${t.accent}b3`}
+                      >
+                        Size Guide
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {attrValues.map(val => {
+                      const isSelected = selectedAttributes[attrKey] === val
+                      const isAvailable = isOptionAvailable(attrKey, val)
+                      
+                      return (
+                        <button
+                          key={val}
+                          onClick={() => handleAttributeClick(attrKey, val)}
+                          disabled={!isAvailable}
+                          className="min-w-[3rem] h-12 px-3 rounded-lg text-sm font-medium transition-all duration-300 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
+                          style={{
+                            backgroundColor: isSelected ? t.sizeActive : t.sizeIdle,
+                            color: isSelected ? t.sizeActiveTxt : t.sizeIdleTxt,
+                            transform: isSelected ? 'scale(1.05)' : 'scale(1)',
+                            boxShadow: isSelected ? `0 0 16px ${t.accent}4d` : 'none',
+                            border: `1px solid ${isSelected ? 'transparent' : t.border}`,
+                          }}
+                        >
+                          {val}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              ))}
+
+              {/* Selected Variant Stock Status */}
+              {selectedVariant && (
+                <div className="flex items-center gap-2 -mt-2">
+                  <div className={`w-2 h-2 rounded-full ${selectedVariant.stock > 0 ? 'bg-green-500' : 'bg-red-500'}`} />
+                  <span className="text-xs" style={{ color: t.textSecondary }}>
+                    {selectedVariant.stock > 0
+                      ? `${selectedVariant.stock} items left in stock`
+                      : 'Out of Stock'}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Quantity */}

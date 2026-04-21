@@ -7,7 +7,7 @@ const priceSchema = new mongoose.Schema({
     },
     currency: { 
         type: String,
-        enum: ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD'],
+        enum: ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD',"INR"],
         default: 'INR',
         required: true,
     }
