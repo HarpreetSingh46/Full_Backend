@@ -8,6 +8,6 @@ import { addToCart, getCart } from "../controllers/cart.controller.js";
 
 const Cartrouter = express.Router();
 
-Cartrouter.post("/add/:productId/:variantId",authenticateUser, validateAddToCart,addToCart)
+Cartrouter.post("/add",authenticateUser, validateAddToCart,addToCart)
 Cartrouter.get("/",authenticateUser,getCart)
 export default Cartrouter;

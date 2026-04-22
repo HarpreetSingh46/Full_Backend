@@ -18,11 +18,11 @@ const cartSchema = new mongoose.Schema({
                 required: true,
                 min: 1
             },
-            variant: {
+            variantId: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'product.variants',
+              
                 required: false,
-                default: 1,
+                
             },
                 price: {
                 type: priceSchema,

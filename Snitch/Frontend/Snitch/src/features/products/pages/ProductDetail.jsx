@@ -396,14 +396,9 @@ const ProductDetailInner = () => {
       return { ...prev, [key]: val }
     })
   }
-  console.log(product)
+  
 
-  // const handleMouseMove = (e) => {
-  //   const rect = e.currentTarget.getBoundingClientRect()
-  //   const x = ((e.clientX - rect.left) / rect.width) * 100
-  //   const y = ((e.clientY - rect.top) / rect.height) * 100
-  //   setZoomStyle({ transformOrigin: `${x}% ${y}%` })
-  // }
+
 
 
   const handleAddToCart = async () => {
@@ -429,14 +424,15 @@ const ProductDetailInner = () => {
 
     await handleAddItem({
       productId: product._id,
-      variantId: selectedVariant._id
+      variantId: selectedVariant._id,
+      quantity,
     })
 
     setAddedToCart(true)
     setTimeout(() => setAddedToCart(false), 2000)
   }
 
-  // बाकी पूरा code same रहेगा (no other changes)
+ 
 
   if (loading) return (
     <div className="min-h-screen transition-colors duration-500" style={{ backgroundColor: t.bg }}>
