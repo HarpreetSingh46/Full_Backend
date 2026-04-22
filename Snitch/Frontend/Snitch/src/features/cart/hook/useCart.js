@@ -15,6 +15,7 @@ export const useCart = () => {
     }
 
     const payload = { productId, variantId, quantity };
+    console.log("SENDING ADD TO CART PAYLOAD:", payload);
 
     try {
       setLoading(true);
@@ -26,19 +27,31 @@ export const useCart = () => {
         throw new Error(res?.message || "Add to cart failed");
       }
 
-     dispatch(addTheItem({
-    productId,
-    variantId,
-    quantity,
-    price: item?.price || 0, 
-    }));
+      // Find the item in the returned cart to get the correct price (it might be populated)
+      const addedItem = res.cart?.items.find(item => 
+        (item.productId?._id?.toString() === productId || item.productId?.toString() === productId) &&
+        (item.variantId?.toString() === variantId)
+      );
+
+      dispatch(addTheItem({
+        productId,
+        variantId,
+        quantity,
+        price: addedItem?.price?.amount || 0, 
+      }));
 
       return res;
     } catch (err) {
       console.error("ADD TO CART ERROR:", err);
+      if (err.response) {
+        console.error("ERROR RESPONSE DATA:", err.response.data);
+      }
 
       setError(
-        err?.response?.data?.message || err.message || "Failed to add item",
+        err?.response?.data?.message || 
+        err?.response?.data?.errors?.[0]?.msg || 
+        err.message || 
+        "Failed to add item",
       );
     } finally {
       setLoading(false);
