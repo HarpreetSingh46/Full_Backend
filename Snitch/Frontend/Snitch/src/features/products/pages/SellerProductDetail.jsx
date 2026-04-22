@@ -48,9 +48,9 @@ const TrashIcon = () => (
 /* ─── Helper: Stat Card ─── */
 function StatCard({ label, value, accent = false }) {
     return (
-        <div className="rounded-xl px-5 py-4 flex flex-col gap-1" style={{ backgroundColor: '#1c1b1b' }}>
+        <div className="rounded-xl px-5 py-4 flex flex-col gap-1" style={{ backgroundColor: '#0a0a0a' }}>
             <span className="text-[11px] font-medium tracking-widest uppercase text-[#6b6356]">{label}</span>
-            <span className={`text-2xl font-bold tracking-tight ${accent ? 'text-[#F5C518]' : 'text-[#e5e2e1]'}`}>{value}</span>
+            <span className={`text-2xl font-bold tracking-tight ${accent ? 'text-[#6366f1]' : 'text-[#e5e2e1]'}`}>{value}</span>
         </div>
     )
 }
@@ -93,7 +93,7 @@ function VariantCard({ variant, onUpdateStock, onRemove, productId }) {
     }
 
     return (
-        <div className="flex flex-col sm:flex-row items-center gap-6 p-5 rounded-2xl bg-[#1c1b1b] transition-all hover:bg-[#212020] group">
+        <div className="flex flex-col sm:flex-row items-center gap-6 p-5 rounded-2xl bg-[#0a0a0a] transition-all hover:bg-[#212020] group">
             {/* Image */}
             <div className="w-24 h-24 rounded-xl overflow-hidden bg-[#0e0e0e] shrink-0">
                 {variant.images?.[0]?.url ? (
@@ -109,7 +109,7 @@ function VariantCard({ variant, onUpdateStock, onRemove, productId }) {
             <div className="flex-1 flex flex-wrap gap-2">
                 {Object.entries(variant.attributes || {}).map(([key, value]) => (
                     <div key={key} className="px-3 py-1.5 rounded-lg bg-[#2a2a2a] text-[#e5e2e1] text-xs font-medium border border-[#3a3939]">
-                        <span className="text-[#9a9078] mr-1.5 uppercase tracking-tighter text-[10px]">{key}:</span>
+                        <span className="text-[#94a3b8] mr-1.5 uppercase tracking-tighter text-[10px]">{key}:</span>
                         {value}
                     </div>
                 ))}
@@ -118,7 +118,7 @@ function VariantCard({ variant, onUpdateStock, onRemove, productId }) {
             {/* Price */}
             <div className="shrink-0 text-right sm:text-left">
                 <p className="text-[10px] text-[#6b6356] uppercase tracking-widest mb-1 font-medium">Price</p>
-                <p className="text-lg font-bold text-[#F5C518]">{formatPrice(variant.price)}</p>
+                <p className="text-lg font-bold text-[#6366f1]">{formatPrice(variant.price)}</p>
             </div>
 
             {/* Stock Control */}
@@ -127,7 +127,7 @@ function VariantCard({ variant, onUpdateStock, onRemove, productId }) {
                 <div className="flex items-center gap-1 bg-[#0e0e0e] rounded-lg p-1 border border-[#2a2a2a]">
                     <button
                         onClick={() => adjustStock(-1)}
-                        className="w-8 h-8 rounded flex items-center justify-center text-[#9a9078] hover:text-[#F5C518] hover:bg-[#1c1b1b] transition-all"
+                        className="w-8 h-8 rounded flex items-center justify-center text-[#94a3b8] hover:text-[#6366f1] hover:bg-[#0a0a0a] transition-all"
                         disabled={updating || localStock <= 0}
                     >
                         -
@@ -141,7 +141,7 @@ function VariantCard({ variant, onUpdateStock, onRemove, productId }) {
                     />
                     <button
                         onClick={() => adjustStock(1)}
-                        className="w-8 h-8 rounded flex items-center justify-center text-[#9a9078] hover:text-[#F5C518] hover:bg-[#1c1b1b] transition-all"
+                        className="w-8 h-8 rounded flex items-center justify-center text-[#94a3b8] hover:text-[#6366f1] hover:bg-[#0a0a0a] transition-all"
                         disabled={updating}
                     >
                         +
@@ -235,8 +235,8 @@ function AddVariantModal({ isOpen, onClose, onAdd, productId }) {
                     {/* Attributes */}
                     <div className="flex flex-col gap-4">
                         <div className="flex justify-between items-center">
-                            <span className="text-xs font-bold tracking-widest uppercase text-[#9a9078]">Attributes</span>
-                            <button type="button" onClick={addAttr} className="text-[10px] text-[#F5C518] hover:underline font-bold">+ ADD ATTRIBUTE</button>
+                            <span className="text-xs font-bold tracking-widest uppercase text-[#94a3b8]">Attributes</span>
+                            <button type="button" onClick={addAttr} className="text-[10px] text-[#6366f1] hover:underline font-bold">+ ADD ATTRIBUTE</button>
                         </div>
                         {form.attributes.map((attr, i) => (
                             <div key={i} className="flex gap-3 animate-in fade-in duration-300">
@@ -244,13 +244,13 @@ function AddVariantModal({ isOpen, onClose, onAdd, productId }) {
                                     placeholder="e.g. Size"
                                     value={attr.key}
                                     onChange={(e) => updateAttr(i, e.target.value, attr.value)}
-                                    className="flex-1 bg-[#0e0e0e] rounded-lg px-4 py-3 text-sm text-[#e5e2e1] border border-transparent focus:border-[#F5C518]/30 outline-none"
+                                    className="flex-1 bg-[#0e0e0e] rounded-lg px-4 py-3 text-sm text-[#e5e2e1] border border-transparent focus:border-[#6366f1]/30 outline-none"
                                 />
                                 <input
                                     placeholder="Value"
                                     value={attr.value}
                                     onChange={(e) => updateAttr(i, attr.key, e.target.value)}
-                                    className="flex-1 bg-[#0e0e0e] rounded-lg px-4 py-3 text-sm text-[#e5e2e1] border border-transparent focus:border-[#F5C518]/30 outline-none"
+                                    className="flex-1 bg-[#0e0e0e] rounded-lg px-4 py-3 text-sm text-[#e5e2e1] border border-transparent focus:border-[#6366f1]/30 outline-none"
                                 />
                                 {form.attributes.length > 1 && (
                                     <button type="button" onClick={() => removeAttr(i)} className="p-3 text-[#ffb4ab] hover:bg-[#93000a]/20 rounded-lg transition-colors"><TrashIcon /></button>
@@ -262,31 +262,31 @@ function AddVariantModal({ isOpen, onClose, onAdd, productId }) {
                     {/* Price & Stock */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div className="flex flex-col gap-2">
-                            <label className="text-xs font-bold tracking-widest uppercase text-[#9a9078]">Price (INR)</label>
+                            <label className="text-xs font-bold tracking-widest uppercase text-[#94a3b8]">Price (INR)</label>
                             <input
                                 type="number"
                                 value={form.priceAmount}
                                 onChange={update('priceAmount')}
-                                className="bg-[#0e0e0e] rounded-lg px-4 py-4 text-sm text-[#e5e2e1] border border-transparent focus:border-[#F5C518]/30 outline-none"
+                                className="bg-[#0e0e0e] rounded-lg px-4 py-4 text-sm text-[#e5e2e1] border border-transparent focus:border-[#6366f1]/30 outline-none"
                             />
                         </div>
                         <div className="flex flex-col gap-2">
-                            <label className="text-xs font-bold tracking-widest uppercase text-[#9a9078]">Initial Stock</label>
+                            <label className="text-xs font-bold tracking-widest uppercase text-[#94a3b8]">Initial Stock</label>
                             <input
                                 type="number"
                                 value={form.stock}
                                 onChange={update('stock')}
-                                className="bg-[#0e0e0e] rounded-lg px-4 py-4 text-sm text-[#e5e2e1] border border-transparent focus:border-[#F5C518]/30 outline-none"
+                                className="bg-[#0e0e0e] rounded-lg px-4 py-4 text-sm text-[#e5e2e1] border border-transparent focus:border-[#6366f1]/30 outline-none"
                             />
                         </div>
                     </div>
 
                     {/* Images */}
                     <div className="flex flex-col gap-3">
-                        <label className="text-xs font-bold tracking-widest uppercase text-[#9a9078]">Variant Images</label>
+                        <label className="text-xs font-bold tracking-widest uppercase text-[#94a3b8]">Variant Images</label>
                         <div
                             onClick={() => fileInputRef.current?.click()}
-                            className="w-full h-32 rounded-2xl border-2 border-dashed border-[#2a2a2a] flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-[#1c1b1b] transition-all"
+                            className="w-full h-32 rounded-2xl border-2 border-dashed border-[#2a2a2a] flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-[#0a0a0a] transition-all"
                         >
                             <UploadIcon />
                             <span className="text-xs text-[#6b6356]">Upload variant specific images</span>
@@ -313,8 +313,8 @@ function AddVariantModal({ isOpen, onClose, onAdd, productId }) {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full py-5 rounded-2xl font-bold text-sm text-[#241a00] hover:brightness-105 active:scale-[0.98] transition-all disabled:opacity-50"
-                        style={{ background: 'linear-gradient(135deg, #ffe5a0 0%, #F5C518 100%)' }}
+                        className="w-full py-5 rounded-2xl font-bold text-sm text-[#ffffff] hover:brightness-105 active:scale-[0.98] transition-all disabled:opacity-50"
+                        style={{ background: 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)' }}
                     >
                         {loading ? 'CREATING...' : 'CREATE VARIANT'}
                     </button>
@@ -388,14 +388,14 @@ const SellerProductDetail = () => {
 
     if (loading) return (
         <div className="min-h-screen bg-[#131313] flex items-center justify-center">
-            <div className="w-10 h-10 border-4 border-[#F5C518]/20 border-t-[#F5C518] rounded-full animate-spin" />
+            <div className="w-10 h-10 border-4 border-[#6366f1]/20 border-t-[#6366f1] rounded-full animate-spin" />
         </div>
     )
 
     if (error || !product) return (
         <div className="min-h-screen bg-[#131313] flex flex-col items-center justify-center p-8 text-center">
             <p className="text-[#ffb4ab] mb-6">{error || 'Product not found'}</p>
-            <button onClick={() => navigate('/seller/dashboard')} className="text-[#F5C518] flex items-center gap-2 hover:underline">
+            <button onClick={() => navigate('/seller/dashboard')} className="text-[#6366f1] flex items-center gap-2 hover:underline">
                 <ArrowLeftIcon /> Back to Dashboard
             </button>
         </div>
@@ -404,11 +404,11 @@ const SellerProductDetail = () => {
     const totalStock = product.variants?.reduce((s, v) => s + (v.stock || 0), 0) || 0
 
     return (
-        <div className="min-h-screen bg-[#131313] text-[#e5e2e1] font-inter pb-20">
+        <div className="min-h-screen bg-[#000000] text-[#e5e2e1] font-['Outfit',_sans-serif] pb-20">
             {/* Header / Nav */}
             <div className="sticky top-0 z-40 bg-[#131313]/80 backdrop-blur-xl border-b border-[#2a2a2a] px-6 py-4">
                 <div className="max-w-6xl mx-auto flex items-center justify-between">
-                    <button onClick={() => navigate('/seller/dashboard')} className="p-2 -ml-2 rounded-full hover:bg-[#1c1b1b] transition-all text-[#6b6356] hover:text-[#e5e2e1]">
+                    <button onClick={() => navigate('/seller/dashboard')} className="p-2 -ml-2 rounded-full hover:bg-[#0a0a0a] transition-all text-[#6b6356] hover:text-[#e5e2e1]">
                         <ArrowLeftIcon />
                     </button>
                     <div className="text-center flex-1">
@@ -423,7 +423,7 @@ const SellerProductDetail = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
                     {/* Visuals */}
                     <div className="lg:col-span-5 flex flex-col gap-4">
-                        <div className="aspect-3/4 rounded-3xl overflow-hidden bg-[#1c1b1b] border border-[#2a2a2a]">
+                        <div className="aspect-3/4 rounded-3xl overflow-hidden bg-[#0a0a0a] border border-[#2a2a2a]">
                             <img
                                 src={product.images?.[activeImage]?.url}
                                 alt={product.title}
@@ -435,7 +435,7 @@ const SellerProductDetail = () => {
                                 <button
                                     key={i}
                                     onClick={() => setActiveImage(i)}
-                                    className={`relative w-24 h-24 rounded-2xl overflow-hidden shrink-0 transition-all ${activeImage === i ? 'ring-2 ring-[#F5C518] scale-95' : 'opacity-40 hover:opacity-100'}`}
+                                    className={`relative w-24 h-24 rounded-2xl overflow-hidden shrink-0 transition-all ${activeImage === i ? 'ring-2 ring-[#6366f1] scale-95' : 'opacity-40 hover:opacity-100'}`}
                                 >
                                     <img src={img.url} alt="thumb" className="w-full h-full object-cover" />
                                 </button>
@@ -446,7 +446,7 @@ const SellerProductDetail = () => {
                     {/* Meta */}
                     <div className="lg:col-span-7 flex flex-col pt-4">
                         <div className="flex items-center gap-3 mb-6">
-                            <span className="px-3 py-1 rounded-full bg-[#F5C518]/10 text-[#F5C518] text-[10px] font-bold tracking-widest uppercase">Active Catalog</span>
+                            <span className="px-3 py-1 rounded-full bg-[#6366f1]/10 text-[#6366f1] text-[10px] font-bold tracking-widest uppercase">Active Catalog</span>
                             <div className="flex items-center gap-1.5 text-[#6b6356]">
                                 <CalendarIcon />
                                 <span className="text-xs">{new Date(product.createdAt).toLocaleDateString()}</span>
@@ -454,7 +454,7 @@ const SellerProductDetail = () => {
                         </div>
 
                         <h1 className="text-5xl font-black tracking-tight mb-4 leading-[0.9]">{product.title}</h1>
-                        <p className="text-lg text-[#9a9078] leading-relaxed mb-10 max-w-xl">{product.description}</p>
+                        <p className="text-lg text-[#94a3b8] leading-relaxed mb-10 max-w-xl">{product.description}</p>
 
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
                             <StatCard label="Base Price" value={`₹${product.price?.amount.toLocaleString('en-IN')}`} accent />
@@ -472,8 +472,8 @@ const SellerProductDetail = () => {
                     </div>
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs text-[#241a00] transition-all hover:brightness-105 active:scale-95"
-                        style={{ background: 'linear-gradient(135deg, #ffe5a0 0%, #F5C518 100%)' }}
+                        className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs text-[#ffffff] transition-all hover:brightness-105 active:scale-95"
+                        style={{ background: 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)' }}
                     >
                         <PlusIcon /> ADD VARIANT
                     </button>
@@ -492,10 +492,10 @@ const SellerProductDetail = () => {
                             />
                         ))
                     ) : (
-                        <div className="flex flex-col items-center justify-center py-20 bg-[#1c1b1b] rounded-3xl border border-dashed border-[#2a2a2a]">
+                        <div className="flex flex-col items-center justify-center py-20 bg-[#0a0a0a] rounded-3xl border border-dashed border-[#2a2a2a]">
                             <PackageIcon />
                             <p className="mt-4 text-[#6b6356] font-medium text-sm">No variants configured for this product.</p>
-                            <button onClick={() => setIsModalOpen(true)} className="mt-6 text-[#F5C518] text-sm font-bold hover:underline">Add first variant</button>
+                            <button onClick={() => setIsModalOpen(true)} className="mt-6 text-[#6366f1] text-sm font-bold hover:underline">Add first variant</button>
                         </div>
                     )}
                 </div>

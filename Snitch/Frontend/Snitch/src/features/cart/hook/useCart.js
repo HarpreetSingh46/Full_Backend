@@ -1,62 +1,90 @@
 import { useDispatch } from "react-redux";
-import { useState } from "react";
-import { addItem } from "../service/cart.api.js";
-import { addTheItem  } from "../state/cart.slice.js";
+import { useState, useCallback } from "react";
+import { 
+    addItem as addItemApi, 
+    getCart as getCartApi, 
+    removeFromCart as removeFromCartApi, 
+    updateQuantity as updateQuantityApi 
+} from "../service/cart.api.js";
+import { 
+    setCart, 
+    addTheItem, 
+    removeItemAction, 
+    updateQuantityAction 
+} from "../state/cart.slice.js";
 
 export const useCart = () => {
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  async function handleAddItem({ productId, variantId, quantity = 1 }) {
-    if (!productId || !variantId) {
-      setError("Product or variant missing");
-      return;
-    }
+    const handleGetCart = useCallback(async () => {
+        try {
+            setLoading(true);
+            const res = await getCartApi();
+            if (res.success) {
+                dispatch(setCart(res.cart?.items || []));
+            }
+        } catch (err) {
+            setError(err.message || "Failed to fetch cart");
+        } finally {
+            setLoading(false);
+        }
+    }, [dispatch]);
 
-    const payload = { productId, variantId, quantity };
-    console.log("SENDING ADD TO CART PAYLOAD:", payload);
+    const handleAddItem = async ({ productId, variantId, quantity = 1 }) => {
+        try {
+            setLoading(true);
+            const res = await addItemApi({ productId, variantId, quantity });
+            if (res.success) {
+                // Sync with full cart from response to ensure accuracy
+                dispatch(setCart(res.cart?.items || []));
+                return res;
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || err.message || "Failed to add item");
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    try {
-      setLoading(true);
+    const handleRemoveItem = async ({ productId, variantId }) => {
+        try {
+            setLoading(true);
+            const res = await removeFromCartApi({ productId, variantId });
+            if (res.success) {
+                dispatch(removeItemAction({ productId, variantId }));
+                // Or sync with full cart: dispatch(setCart(res.cart?.items || []));
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || err.message || "Failed to remove item");
+        } finally {
+            setLoading(false);
+        }
+    };
 
-      const res = await addItem(payload);
-      console.log("API RESPONSE:", res);
+    const handleUpdateQuantity = async ({ productId, variantId, quantity }) => {
+        if (quantity < 1) return;
+        try {
+            setLoading(true);
+            const res = await updateQuantityApi({ productId, variantId, quantity });
+            if (res.success) {
+                dispatch(updateQuantityAction({ productId, variantId, quantity }));
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || err.message || "Failed to update quantity");
+        } finally {
+            setLoading(false);
+        }
+    };
 
-      if (!res || !res.success) {
-        throw new Error(res?.message || "Add to cart failed");
-      }
-
-      // Find the item in the returned cart to get the correct price (it might be populated)
-      const addedItem = res.cart?.items.find(item => 
-        (item.productId?._id?.toString() === productId || item.productId?.toString() === productId) &&
-        (item.variantId?.toString() === variantId)
-      );
-
-      dispatch(addTheItem({
-        productId,
-        variantId,
-        quantity,
-        price: addedItem?.price?.amount || 0, 
-      }));
-
-      return res;
-    } catch (err) {
-      console.error("ADD TO CART ERROR:", err);
-      if (err.response) {
-        console.error("ERROR RESPONSE DATA:", err.response.data);
-      }
-
-      setError(
-        err?.response?.data?.message || 
-        err?.response?.data?.errors?.[0]?.msg || 
-        err.message || 
-        "Failed to add item",
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  return { handleAddItem, loading, error };
+    return { 
+        handleAddItem, 
+        handleGetCart, 
+        handleRemoveItem, 
+        handleUpdateQuantity, 
+        loading, 
+        error 
+    };
 };

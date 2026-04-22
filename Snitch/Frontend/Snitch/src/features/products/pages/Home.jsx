@@ -11,42 +11,42 @@ const useTheme = () => useContext(ThemeContext)
 /* ─── Theme Tokens ─── */
 const themes = {
   dark: {
-    bg: '#131313',
-    bgNav: 'rgba(19,19,19,0.8)',
-    card: '#1c1b1b',
-    surface: '#0e0e0e',
-    text: '#e5e2e1',
-    textSecondary: '#9a9078',
-    textMuted: '#4e4633',
-    textPrice: '#d1c5ac',
-    accent: '#F5C518',
-    accentDark: '#241a00',
-    accentGlow: 'rgba(245,197,24,0.05)',
-    accentBorder: 'rgba(245,197,24,0.4)',
-    border: 'rgba(255,255,255,0.05)',
-    gradientFrom: '#ffe5a0',
-    gradientTo: '#F5C518',
-    skeletonBg: '#1c1b1b',
-    overlayBg: 'rgba(0,0,0,0.3)',
-    searchBg: '#1c1b1b',
+    bg: '#000000',
+    bgNav: 'rgba(0,0,0,0.85)',
+    card: '#0a0a0a',
+    surface: '#050505',
+    text: '#ffffff',
+    textSecondary: '#94a3b8',
+    textMuted: '#64748b',
+    textPrice: '#cbd5e1',
+    accent: '#6366f1',
+    accentDark: '#1e1b4b',
+    accentGlow: 'rgba(99,102,241,0.08)',
+    accentBorder: 'rgba(99,102,241,0.4)',
+    border: 'rgba(255,255,255,0.08)',
+    gradientFrom: '#818cf8',
+    gradientTo: '#6366f1',
+    skeletonBg: '#0f172a',
+    overlayBg: 'rgba(0,0,0,0.4)',
+    searchBg: '#0a0a0a',
   },
   light: {
-    bg: '#f5f3ef',
-    bgNav: 'rgba(245,243,239,0.85)',
-    card: '#ffffff',
-    surface: '#f0ece5',
-    text: '#1a1a1a',
-    textSecondary: '#6b5e4d',
-    textMuted: '#b5a98c',
-    textPrice: '#3d3425',
-    accent: '#d4a810',
-    accentDark: '#241a00',
-    accentGlow: 'rgba(212,168,16,0.08)',
-    accentBorder: 'rgba(212,168,16,0.5)',
-    border: 'rgba(0,0,0,0.07)',
-    gradientFrom: '#f5d44b',
-    gradientTo: '#d4a810',
-    skeletonBg: '#e8e4dc',
+    bg: '#ffffff',
+    bgNav: 'rgba(255,255,255,0.85)',
+    card: '#f8fafc',
+    surface: '#f1f5f9',
+    text: '#0f172a',
+    textSecondary: '#475569',
+    textMuted: '#94a3b8',
+    textPrice: '#1e293b',
+    accent: '#4f46e5',
+    accentDark: '#eef2ff',
+    accentGlow: 'rgba(79,70,229,0.08)',
+    accentBorder: 'rgba(79,70,229,0.5)',
+    border: 'rgba(0,0,0,0.06)',
+    gradientFrom: '#6366f1',
+    gradientTo: '#4f46e5',
+    skeletonBg: '#e2e8f0',
     overlayBg: 'rgba(255,255,255,0.4)',
     searchBg: '#ffffff',
   },
@@ -133,17 +133,17 @@ function ThemeToggle() {
         style={{
           transform: isDark ? 'translateX(0px)' : 'translateX(26px)',
           background: isDark
-            ? 'linear-gradient(135deg, #F5C518 0%, #e0b400 100%)'
-            : 'linear-gradient(135deg, #F5C518 0%, #f7d94c 100%)',
+            ? 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)'
+            : 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
           boxShadow: isDark
-            ? '0 0 12px rgba(245,197,24,0.6), 0 2px 4px rgba(0,0,0,0.3)'
-            : '0 0 12px rgba(245,197,24,0.4), 0 2px 4px rgba(0,0,0,0.1)',
+            ? '0 0 12px rgba(99,102,241,0.6), 0 2px 4px rgba(0,0,0,0.3)'
+            : '0 0 12px rgba(79,70,229,0.4), 0 2px 4px rgba(0,0,0,0.1)',
         }}
       >
         <span
           className="transition-all duration-500"
           style={{
-            color: '#241a00',
+            color: isDark ? '#ffffff' : '#ffffff',
             transform: isDark ? 'rotate(0deg)' : 'rotate(360deg)',
           }}
         >
@@ -294,6 +294,7 @@ function SkeletonCard() {
 function Navbar() {
   const { t, mode } = useTheme()
   const user = useSelector((state) => state.auth.user)
+  const { totalItems } = useSelector((state) => state.cart)
   const [searchOpen, setSearchOpen] = useState(false)
 
   return (
@@ -356,7 +357,8 @@ function Navbar() {
             </button>
 
             {/* Bag */}
-            <button
+            <Link
+              to="/cart"
               className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 relative"
               style={{ color: t.textSecondary }}
               onMouseEnter={(e) => { e.currentTarget.style.color = t.accent; e.currentTarget.style.backgroundColor = `${t.accent}0d` }}
@@ -364,22 +366,27 @@ function Navbar() {
               aria-label="Shopping bag"
             >
               <BagIcon />
-              <span
-                className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full text-[9px] font-bold flex items-center justify-center"
-                style={{ backgroundColor: t.accent, color: t.accentDark }}
-              >
-                0
-              </span>
-            </button>
+              {totalItems > 0 && (
+                <span
+                  className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full text-[9px] font-bold flex items-center justify-center"
+                  style={{ backgroundColor: t.accent, color: t.accentDark }}
+                >
+                  {totalItems}
+                </span>
+              )}
+            </Link>
 
             {/* User / Login */}
             {user ? (
               <Link
                 to="/seller/dashboard"
-                className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300"
+                className="flex items-center gap-2 px-3 py-1 rounded-full transition-all duration-300 hover:brightness-110"
                 style={{ backgroundColor: `${t.accent}1a`, color: t.accent }}
                 aria-label="Profile"
               >
+                <span className="text-[10px] font-bold uppercase tracking-wider">
+                  {user.username?.split(' ')[0]}
+                </span>
                 <UserIcon />
               </Link>
             ) : (
@@ -533,7 +540,7 @@ const Home = () => {
     <ThemeContext.Provider value={{ mode, toggle, t }}>
       <div
         className="min-h-screen transition-colors duration-500"
-        style={{ backgroundColor: t.bg, fontFamily: "'Inter', sans-serif" }}
+        style={{ backgroundColor: t.bg, fontFamily: "'Outfit', sans-serif" }}
       >
         {/* Navbar */}
         <Navbar />

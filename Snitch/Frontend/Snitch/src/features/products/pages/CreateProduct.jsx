@@ -38,11 +38,11 @@ const ChevronDownIcon = () => (
 function InputField({ id, label, type = 'text', icon, value, onChange, placeholder }) {
     return (
         <div className="flex flex-col gap-2">
-            <label htmlFor={id} className="text-xs font-medium tracking-widest uppercase text-[#9a9078]">
+            <label htmlFor={id} className="text-xs font-medium tracking-widest uppercase text-[#94a3b8]">
                 {label}
             </label>
             <div className="relative flex items-center group">
-                <span className="absolute left-4 text-[#9a9078] group-focus-within:text-[#F5C518] transition-colors duration-200">
+                <span className="absolute left-4 text-[#94a3b8] group-focus-within:text-[#6366f1] transition-colors duration-200">
                     {icon}
                 </span>
                 <input
@@ -56,7 +56,7 @@ function InputField({ id, label, type = 'text', icon, value, onChange, placehold
             w-full bg-[#0e0e0e] text-[#e5e2e1] placeholder-[#4e4633]
             pl-12 pr-5 py-4 rounded-lg text-sm
             border border-transparent
-            focus:outline-none focus:border-[#F5C518]/40 focus:ring-0
+            focus:outline-none focus:border-[#6366f1]/40 focus:ring-0
             transition-colors duration-200
           "
                 />
@@ -68,11 +68,11 @@ function InputField({ id, label, type = 'text', icon, value, onChange, placehold
 function TextareaField({ id, label, icon, value, onChange, placeholder, rows = 4 }) {
     return (
         <div className="flex flex-col gap-2">
-            <label htmlFor={id} className="text-xs font-medium tracking-widest uppercase text-[#9a9078]">
+            <label htmlFor={id} className="text-xs font-medium tracking-widest uppercase text-[#94a3b8]">
                 {label}
             </label>
             <div className="relative group">
-                <span className="absolute left-4 top-4 text-[#9a9078] group-focus-within:text-[#F5C518] transition-colors duration-200">
+                <span className="absolute left-4 top-4 text-[#94a3b8] group-focus-within:text-[#6366f1] transition-colors duration-200">
                     {icon}
                 </span>
                 <textarea
@@ -86,7 +86,7 @@ function TextareaField({ id, label, icon, value, onChange, placeholder, rows = 4
             w-full bg-[#0e0e0e] text-[#e5e2e1] placeholder-[#4e4633]
             pl-12 pr-5 py-4 rounded-lg text-sm resize-none
             border border-transparent
-            focus:outline-none focus:border-[#F5C518]/40 focus:ring-0
+            focus:outline-none focus:border-[#6366f1]/40 focus:ring-0
             transition-colors duration-200 leading-relaxed
           "
                 />
@@ -179,12 +179,12 @@ const CreateProduct = () => {
     return (
         <div
             className="min-h-screen flex items-start justify-center px-4 py-16 sm:py-24"
-            style={{ backgroundColor: '#131313', fontFamily: "'Inter', sans-serif" }}
+            style={{ backgroundColor: '#000000', fontFamily: "'Outfit', sans-serif" }}
         >
             {/* Card */}
             <div
                 className="w-full max-w-2xl rounded-2xl px-8 py-14 sm:px-12"
-                style={{ backgroundColor: '#1c1b1b' }}
+                style={{ backgroundColor: '#0a0a0a' }}
             >
                 {/* Header */}
                 <div className="mb-12">
@@ -194,7 +194,7 @@ const CreateProduct = () => {
                     >
                         Create Product
                     </h1>
-                    <p className="mt-3 text-sm text-[#9a9078] leading-relaxed">
+                    <p className="mt-3 text-sm text-[#94a3b8] leading-relaxed">
                         Add a new product to your Snitch catalog.
                     </p>
                 </div>
@@ -227,13 +227,13 @@ const CreateProduct = () => {
                     />
                     {/* Price Row */}
                     <div className="flex flex-col gap-2">
-                        <span className="text-xs font-medium tracking-widest uppercase text-[#9a9078]">
+                        <span className="text-xs font-medium tracking-widest uppercase text-[#94a3b8]">
                             Pricing
                         </span>
                         <div className="flex gap-4">
                             {/* Amount */}
                             <div className="relative flex items-center group flex-1">
-                                <span className="absolute left-4 text-[#9a9078] group-focus-within:text-[#F5C518] transition-colors duration-200">
+                                <span className="absolute left-4 text-[#94a3b8] group-focus-within:text-[#6366f1] transition-colors duration-200">
                                     <CurrencyIcon />
                                 </span>
                                 <input
@@ -249,7 +249,7 @@ const CreateProduct = () => {
                     w-full bg-[#0e0e0e] text-[#e5e2e1] placeholder-[#4e4633]
                     pl-12 pr-5 py-4 rounded-lg text-sm
                     border border-transparent
-                    focus:outline-none focus:border-[#F5C518]/40 focus:ring-0
+                    focus:outline-none focus:border-[#6366f1]/40 focus:ring-0
                     transition-colors duration-200
                     [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
                   "
@@ -265,7 +265,7 @@ const CreateProduct = () => {
                     w-full bg-[#0e0e0e] text-[#e5e2e1]
                     pl-5 pr-10 py-4 rounded-lg text-sm
                     border border-transparent appearance-none cursor-pointer
-                    focus:outline-none focus:border-[#F5C518]/40 focus:ring-0
+                    focus:outline-none focus:border-[#6366f1]/40 focus:ring-0
                     transition-colors duration-200
                   "
                                 >
@@ -275,7 +275,7 @@ const CreateProduct = () => {
                                         </option>
                                     ))}
                                 </select>
-                                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[#9a9078] pointer-events-none">
+                                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[#94a3b8] pointer-events-none">
                                     <ChevronDownIcon />
                                 </span>
                             </div>
@@ -283,7 +283,7 @@ const CreateProduct = () => {
                     </div>
                     {/* Image Upload */}
                     <div className="flex flex-col gap-3">
-                        <span className="text-xs font-medium tracking-widest uppercase text-[#9a9078]">
+                        <span className="text-xs font-medium tracking-widest uppercase text-[#94a3b8]">
                             Product Images
                             <span className="ml-2 normal-case tracking-normal text-[#4e4633] font-normal">
                                 ({images.length}/{MAX_IMAGES})
@@ -300,8 +300,8 @@ const CreateProduct = () => {
                 rounded-lg cursor-pointer
                 transition-all duration-300 ease-out
                 ${isDragOver
-                                    ? 'bg-[#F5C518]/5 border-[#F5C518]/40'
-                                    : 'bg-[#0e0e0e] border-[#4e4633]/30 hover:border-[#9a9078]/30'
+                                    ? 'bg-[#6366f1]/5 border-[#6366f1]/40'
+                                    : 'bg-[#0e0e0e] border-[#4e4633]/30 hover:border-[#94a3b8]/30'
                                 }
                 ${images.length >= MAX_IMAGES
                                     ? 'opacity-40 cursor-not-allowed'
@@ -310,13 +310,13 @@ const CreateProduct = () => {
               `}
                             style={{ border: '1.5px dashed' }}
                         >
-                            <span className={`transition-colors duration-200 ${isDragOver ? 'text-[#F5C518]' : 'text-[#9a9078]'}`}>
+                            <span className={`transition-colors duration-200 ${isDragOver ? 'text-[#6366f1]' : 'text-[#94a3b8]'}`}>
                                 <UploadIcon />
                             </span>
                             <div className="text-center">
                                 <p className="text-sm text-[#d1c5ac]">
                                     Drag and drop high-res visuals or{' '}
-                                    <span className="text-[#F5C518] font-medium">browse</span>
+                                    <span className="text-[#6366f1] font-medium">browse</span>
                                 </p>
                                 <p className="text-xs text-[#4e4633] mt-1.5">
                                     PNG, JPG, or WEBP — up to 7 images
@@ -411,15 +411,15 @@ const CreateProduct = () => {
                         type="submit"
                         disabled={loading}
                         className="
-              mt-4 w-full py-4 rounded-lg font-semibold text-sm text-[#241a00]
+              mt-4 w-full py-4 rounded-lg font-semibold text-sm text-[#ffffff]
               transition-all duration-200
               disabled:opacity-50 disabled:cursor-not-allowed
               hover:brightness-105 active:scale-[0.98]
             "
                         style={{
                             background: loading
-                                ? '#F5C518'
-                                : 'linear-gradient(135deg, #ffe5a0 0%, #F5C518 100%)',
+                                ? '#6366f1'
+                                : 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)',
                         }}
                     >
                         {loading ? (

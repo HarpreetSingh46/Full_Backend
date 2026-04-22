@@ -7,6 +7,7 @@ import Dashboard from "../features/products/pages/Dashboard";
 import Protected from "../features/auth/component/Protected";
 import Home from "../features/products/pages/Home";
 import SellerProductDetail from "../features/products/pages/SellerProductDetail";
+import Cart from "../features/cart/pages/Cart";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -26,7 +27,13 @@ const routes = createBrowserRouter([
   path:"/product/:productId",
   element:<ProductDetail /> 
 },
-  // ✅ Seller Protected Routes
+{
+  path:"/cart",
+  element:<Protected>
+     <Cart />  
+  </Protected>  
+},
+  
   {
     path: "/seller",
     children: [

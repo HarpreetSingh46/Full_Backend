@@ -86,14 +86,14 @@ function ImageCarousel({ images, title }) {
                 <>
                     <button
                         onClick={prev}
-                        className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-[#131313]/70 backdrop-blur-sm text-[#e5e2e1] flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 hover:bg-[#F5C518]/20 hover:text-[#F5C518] transition-all duration-200"
+                        className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-[#131313]/70 backdrop-blur-sm text-[#e5e2e1] flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 hover:bg-[#6366f1]/20 hover:text-[#6366f1] transition-all duration-200"
                         aria-label="Previous image"
                     >
                         <ChevronLeftIcon />
                     </button>
                     <button
                         onClick={next}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-[#131313]/70 backdrop-blur-sm text-[#e5e2e1] flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 hover:bg-[#F5C518]/20 hover:text-[#F5C518] transition-all duration-200"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-[#131313]/70 backdrop-blur-sm text-[#e5e2e1] flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 hover:bg-[#6366f1]/20 hover:text-[#6366f1] transition-all duration-200"
                         aria-label="Next image"
                     >
                         <ChevronRightIcon />
@@ -109,7 +109,7 @@ function ImageCarousel({ images, title }) {
                             key={i}
                             onClick={(e) => { e.stopPropagation(); setCurrent(i) }}
                             className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === current
-                                ? 'bg-[#F5C518] w-4'
+                                ? 'bg-[#6366f1] w-4'
                                 : 'bg-white/40 hover:bg-white/70'
                                 }`}
                             aria-label={`Go to image ${i + 1}`}
@@ -140,7 +140,7 @@ function ProductCard({ product }) {
 
     return (
         <div className="group rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(245,197,24,0.06)]"
-            style={{ backgroundColor: '#1c1b1b' }}
+            style={{ backgroundColor: '#0a0a0a' }}
         >
             {/* Image */}
             <div className="p-3 pb-0">
@@ -156,7 +156,7 @@ function ProductCard({ product }) {
                     </h3>
                     <span
                         className="text-sm font-bold tracking-tight whitespace-nowrap shrink-0"
-                        style={{ color: '#F5C518' }}
+                        style={{ color: '#6366f1' }}
                     >
                         {formatPrice(product.price)}
                     </span>
@@ -164,7 +164,7 @@ function ProductCard({ product }) {
 
                 {/* Description */}
                 {product.description && (
-                    <p className="text-xs text-[#9a9078] leading-relaxed line-clamp-2">
+                    <p className="text-xs text-[#94a3b8] leading-relaxed line-clamp-2">
                         {product.description}
                     </p>
                 )}
@@ -191,13 +191,13 @@ function StatCard({ label, value, accent = false }) {
     return (
         <div
             className="rounded-xl px-5 py-4 flex flex-col gap-1"
-            style={{ backgroundColor: '#1c1b1b' }}
+            style={{ backgroundColor: '#0a0a0a' }}
         >
             <span className="text-[11px] font-medium tracking-widest uppercase text-[#6b6356]">
                 {label}
             </span>
             <span
-                className={`text-2xl font-bold tracking-tight ${accent ? 'text-[#F5C518]' : 'text-[#e5e2e1]'}`}
+                className={`text-2xl font-bold tracking-tight ${accent ? 'text-[#6366f1]' : 'text-[#e5e2e1]'}`}
             >
                 {value}
             </span>
@@ -208,7 +208,7 @@ function StatCard({ label, value, accent = false }) {
 /* ─── Loading Skeleton ─── */
 function SkeletonCard() {
     return (
-        <div className="rounded-2xl overflow-hidden animate-pulse" style={{ backgroundColor: '#1c1b1b' }}>
+        <div className="rounded-2xl overflow-hidden animate-pulse" style={{ backgroundColor: '#0a0a0a' }}>
             <div className="p-3 pb-0">
                 <div className="w-full aspect-[4/5] rounded-xl bg-[#2a2a2a]" />
             </div>
@@ -260,7 +260,7 @@ const Dashboard = () => {
     return (
         <div
             className="min-h-screen px-4 py-10 sm:px-8 lg:px-16"
-            style={{ backgroundColor: '#131313', fontFamily: "'Inter', sans-serif" }}
+            style={{ backgroundColor: '#000000', fontFamily: "'Outfit', sans-serif" }}
         >
             <div className="max-w-7xl mx-auto">
 
@@ -276,7 +276,7 @@ const Dashboard = () => {
                         >
                             Your Products
                         </h1>
-                        <p className="mt-2 text-sm text-[#9a9078] leading-relaxed max-w-md">
+                        <p className="mt-2 text-sm text-[#94a3b8] leading-relaxed max-w-md">
                             Manage, track, and organize everything in your Snitch catalog.
                         </p>
                     </div>
@@ -286,12 +286,12 @@ const Dashboard = () => {
                         id="add-product-btn"
                         onClick={() => navigate('/seller/products/create')}
                         className="
-              flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-[#241a00]
+              flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-[#ffffff]
               transition-all duration-200 hover:brightness-105 active:scale-[0.97]
               shrink-0 self-start sm:self-auto
             "
                         style={{
-                            background: 'linear-gradient(135deg, #ffe5a0 0%, #F5C518 100%)',
+                            background: 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)',
                         }}
                     >
                         <PlusIcon />
@@ -312,7 +312,7 @@ const Dashboard = () => {
                 {/* ── Search Bar ── */}
                 <div className="mb-8">
                     <div className="relative max-w-md group">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#6b6356] group-focus-within:text-[#F5C518] transition-colors duration-200">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#6b6356] group-focus-within:text-[#6366f1] transition-colors duration-200">
                             <SearchIcon />
                         </span>
                         <input
@@ -323,10 +323,10 @@ const Dashboard = () => {
                             placeholder="Search products…"
                             autoComplete="off"
                             className="
-                w-full bg-[#1c1b1b] text-[#e5e2e1] placeholder-[#4e4633]
+                w-full bg-[#0a0a0a] text-[#e5e2e1] placeholder-[#4e4633]
                 pl-11 pr-5 py-3.5 rounded-xl text-sm
                 border border-transparent
-                focus:outline-none focus:border-[#F5C518]/30 focus:ring-0
+                focus:outline-none focus:border-[#6366f1]/30 focus:ring-0
                 transition-colors duration-200
               "
                         />
@@ -378,7 +378,7 @@ const Dashboard = () => {
                                     No matches found
                                 </h2>
                                 <p className="text-sm text-[#6b6356] max-w-sm">
-                                    No products match "<span className="text-[#9a9078]">{searchQuery}</span>". Try a different search term.
+                                    No products match "<span className="text-[#94a3b8]">{searchQuery}</span>". Try a different search term.
                                 </p>
                             </>
                         ) : (
@@ -392,11 +392,11 @@ const Dashboard = () => {
                                 <button
                                     onClick={() => navigate('/seller/products/create')}
                                     className="
-                    flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-[#241a00]
+                    flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-[#ffffff]
                     transition-all duration-200 hover:brightness-105 active:scale-[0.97]
                   "
                                     style={{
-                                        background: 'linear-gradient(135deg, #ffe5a0 0%, #F5C518 100%)',
+                                        background: 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)',
                                     }}
                                 >
                                     <PlusIcon />

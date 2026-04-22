@@ -29,11 +29,11 @@ const EyeIcon = ({ open }) =>
 function InputField({ id, label, type = 'text', icon, value, onChange, placeholder, rightElement }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-xs font-medium tracking-widest uppercase text-[#9a9078]">
+      <label htmlFor={id} className="text-xs font-medium tracking-widest uppercase text-[#94a3b8]">
         {label}
       </label>
       <div className="relative flex items-center group">
-        <span className="absolute left-4 text-[#9a9078] group-focus-within:text-[#F5C518] transition-colors duration-200">
+        <span className="absolute left-4 text-[#94a3b8] group-focus-within:text-[#6366f1] transition-colors duration-200">
           {icon}
         </span>
         <input
@@ -47,12 +47,12 @@ function InputField({ id, label, type = 'text', icon, value, onChange, placehold
             w-full bg-[#0e0e0e] text-[#e5e2e1] placeholder-[#4e4633]
             pl-11 pr-11 py-3.5 rounded-lg text-sm
             border border-transparent
-            focus:outline-none focus:border-[#F5C518]/40 focus:ring-0
+            focus:outline-none focus:border-[#6366f1]/40 focus:ring-0
             transition-colors duration-200
           "
         />
         {rightElement && (
-          <span className="absolute right-4 text-[#9a9078]">{rightElement}</span>
+          <span className="absolute right-4 text-[#94a3b8]">{rightElement}</span>
         )}
       </div>
     </div>
@@ -97,12 +97,12 @@ const Login = () => {
   return (
     <div
       className="min-h-screen flex items-center justify-center px-4 py-16"
-      style={{ backgroundColor: '#131313', fontFamily: "'Inter', sans-serif" }}
+      style={{ backgroundColor: '#000000', fontFamily: "'Outfit', sans-serif" }}
     >
       {/* Card */}
       <div
         className="w-full max-w-md rounded-2xl px-8 py-12 sm:px-10"
-        style={{ backgroundColor: '#1c1b1b' }}
+        style={{ backgroundColor: '#0a0a0a' }}
       >
         {/* Brand */}
         <div className="mb-10">
@@ -112,7 +112,7 @@ const Login = () => {
           >
             Welcome back
           </h1>
-          <p className="mt-2 text-sm text-[#9a9078]">
+          <p className="mt-2 text-sm text-[#94a3b8]">
             Sign in to your Snitch account.
           </p>
         </div>
@@ -148,7 +148,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword((v) => !v)}
-                className="text-[#9a9078] hover:text-[#F5C518] transition-colors duration-200 focus:outline-none"
+                className="text-[#94a3b8] hover:text-[#6366f1] transition-colors duration-200 focus:outline-none"
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
                 <EyeIcon open={showPassword} />
@@ -160,7 +160,7 @@ const Login = () => {
           <div className="flex justify-end -mt-2">
             <Link
               to="/forgot-password"
-              className="text-xs text-[#9a9078] hover:text-[#F5C518] transition-colors duration-200"
+              className="text-xs text-[#94a3b8] hover:text-[#6366f1] transition-colors duration-200"
             >
               Forgot password?
             </Link>
@@ -171,15 +171,15 @@ const Login = () => {
             type="submit"
             disabled={loading}
             className="
-              mt-2 w-full py-3.5 rounded-lg font-semibold text-sm text-[#241a00]
+              mt-2 w-full py-3.5 rounded-lg font-semibold text-sm text-[#ffffff]
               transition-all duration-200
               disabled:opacity-50 disabled:cursor-not-allowed
               hover:brightness-105 active:scale-[0.98]
             "
             style={{
               background: loading
-                ? '#F5C518'
-                : 'linear-gradient(135deg, #ffe5a0 0%, #F5C518 100%)',
+                ? '#6366f1'
+                : 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)',
             }}
           >
             {loading ? (
@@ -201,7 +201,7 @@ const Login = () => {
               w-full py-3.5 rounded-lg
               border border-[#2e2c2c] bg-[#0e0e0e]
               text-sm font-medium text-[#d1c5ac]
-              hover:border-[#F5C518]/40 hover:text-[#e5e2e1] hover:bg-[#181616]
+              hover:border-[#6366f1]/40 hover:text-[#e5e2e1] hover:bg-[#181616]
               active:scale-[0.98]
               transition-all duration-200
             "
@@ -218,11 +218,11 @@ const Login = () => {
         </form>
 
         {/* Footer */}
-        <p className="mt-8 text-center text-sm text-[#9a9078]">
+        <p className="mt-8 text-center text-sm text-[#94a3b8]">
           Don't have an account?{' '}
           <Link
             to="/register"
-            className="text-[#F5C518] font-medium hover:text-[#ffe5a0] transition-colors duration-200"
+            className="text-[#6366f1] font-medium hover:text-[#818cf8] transition-colors duration-200"
           >
             Create one
           </Link>

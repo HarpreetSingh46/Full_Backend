@@ -36,12 +36,12 @@ const EyeIcon = ({ open }) => open ? (
 function InputField({ id, label, type = 'text', icon, value, onChange, placeholder, rightElement }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-xs font-medium tracking-widest uppercase text-[#9a9078]">
+      <label htmlFor={id} className="text-xs font-medium tracking-widest uppercase text-[#94a3b8]">
         {label}
       </label>
       <div className="relative flex items-center group">
         {/* left icon */}
-        <span className="absolute left-4 text-[#9a9078] group-focus-within:text-[#F5C518] transition-colors duration-200">
+        <span className="absolute left-4 text-[#94a3b8] group-focus-within:text-[#6366f1] transition-colors duration-200">
           {icon}
         </span>
         <input
@@ -55,12 +55,12 @@ function InputField({ id, label, type = 'text', icon, value, onChange, placehold
             w-full bg-[#0e0e0e] text-[#e5e2e1] placeholder-[#4e4633]
             pl-11 pr-4 py-3.5 rounded-lg text-sm
             border border-transparent
-            focus:outline-none focus:border-[#F5C518]/40 focus:ring-0
+            focus:outline-none focus:border-[#6366f1]/40 focus:ring-0
             transition-colors duration-200
           "
         />
         {rightElement && (
-          <span className="absolute right-4 text-[#9a9078]">{rightElement}</span>
+          <span className="absolute right-4 text-[#94a3b8]">{rightElement}</span>
         )}
       </div>
     </div>
@@ -115,19 +115,19 @@ const Register = () => {
   return (
     <div
       className="min-h-screen flex items-center justify-center px-4 py-16"
-      style={{ backgroundColor: '#131313', fontFamily: "'Inter', sans-serif" }}
+      style={{ backgroundColor: '#000000', fontFamily: "'Outfit', sans-serif" }}
     >
       {/* Card */}
       <div
         className="w-full max-w-md rounded-2xl px-10 py-12"
-        style={{ backgroundColor: '#1c1b1b' }}
+        style={{ backgroundColor: '#0a0a0a' }}
       >
         {/* Header */}
         <div className="mb-10">
           <h1 className="text-3xl font-bold text-[#e5e2e1] tracking-tight" style={{ letterSpacing: '-0.02em' }}>
             Create Account
           </h1>
-          <p className="mt-2 text-sm text-[#9a9078]">
+          <p className="mt-2 text-sm text-[#94a3b8]">
             Join our community and start your journey.
           </p>
         </div>
@@ -182,7 +182,7 @@ const Register = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword((v) => !v)}
-                className="text-[#9a9078] hover:text-[#F5C518] transition-colors duration-200 focus:outline-none"
+                className="text-[#94a3b8] hover:text-[#6366f1] transition-colors duration-200 focus:outline-none"
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
                 <EyeIcon open={showPassword} />
@@ -207,14 +207,14 @@ const Register = () => {
                 className="
                   w-5 h-5 rounded border border-[#4e4633]
                   bg-[#0e0e0e] transition-all duration-200
-                  peer-checked:bg-[#F5C518] peer-checked:border-[#F5C518]
-                  group-hover:border-[#F5C518]/50
+                  peer-checked:bg-[#6366f1] peer-checked:border-[#6366f1]
+                  group-hover:border-[#6366f1]/50
                 "
               />
               {/* Checkmark */}
               {form.isSeller && (
                 <svg
-                  className="absolute w-3 h-3 text-[#241a00] pointer-events-none"
+                  className="absolute w-3 h-3 text-[#ffffff] pointer-events-none"
                   fill="none"
                   viewBox="0 0 12 12"
                   stroke="currentColor"
@@ -234,15 +234,15 @@ const Register = () => {
             type="submit"
             disabled={loading}
             className="
-              mt-4 w-full py-3.5 rounded-lg font-semibold text-sm text-[#241a00]
+              mt-4 w-full py-3.5 rounded-lg font-semibold text-sm text-[#ffffff]
               transition-all duration-200
               disabled:opacity-50 disabled:cursor-not-allowed
               hover:brightness-105 active:scale-[0.98]
             "
             style={{
               background: loading
-                ? '#F5C518'
-                : 'linear-gradient(135deg, #ffe5a0 0%, #F5C518 100%)',
+                ? '#6366f1'
+                : 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)',
             }}
           >
             {loading ? (
@@ -271,7 +271,7 @@ const Register = () => {
               w-full py-3.5 rounded-lg
               border border-[#2e2c2c] bg-[#0e0e0e]
               text-sm font-medium text-[#d1c5ac]
-              hover:border-[#F5C518]/40 hover:text-[#e5e2e1] hover:bg-[#181616]
+              hover:border-[#6366f1]/40 hover:text-[#e5e2e1] hover:bg-[#181616]
               active:scale-[0.98]
               transition-all duration-200
             "
@@ -288,11 +288,11 @@ const Register = () => {
         </form>
 
         {/* Footer */}
-        <p className="mt-8 text-center text-sm text-[#9a9078]">
+        <p className="mt-8 text-center text-sm text-[#94a3b8]">
           Already have an account?{' '}
           <Link
             to="/login"
-            className="text-[#F5C518] font-medium hover:text-[#ffe5a0] transition-colors duration-200"
+            className="text-[#6366f1] font-medium hover:text-[#818cf8] transition-colors duration-200"
           >
             Sign in
           </Link>

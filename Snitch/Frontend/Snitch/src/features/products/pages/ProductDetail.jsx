@@ -1,4 +1,5 @@
 import React, { useEffect, useState, createContext, useContext } from 'react'
+import { useSelector } from 'react-redux'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useProduct } from '../hook/userproduct'
 import { useCart } from '../../cart/hook/useCart'
@@ -9,54 +10,54 @@ const useTheme = () => useContext(ThemeContext)
 /* ─── Theme Tokens ─── */
 const themes = {
   dark: {
-    bg: '#131313',
-    bgNav: 'rgba(19,19,19,0.85)',
-    card: '#1c1b1b',
-    surface: '#0e0e0e',
-    text: '#e5e2e1',
-    textSecondary: '#9a9078',
-    textMuted: '#4e4633',
-    textPrice: '#d1c5ac',
-    accent: '#F5C518',
-    accentDark: '#241a00',
-    border: 'rgba(255,255,255,0.05)',
-    inputBg: '#0e0e0e',
-    sizeActive: '#F5C518',
-    sizeActiveTxt: '#241a00',
-    sizeIdle: '#1c1b1b',
-    sizeIdleTxt: '#9a9078',
-    skeletonBg: '#1c1b1b',
-    perkBg: '#1c1b1b',
-    badgeBg: 'rgba(245,197,24,0.1)',
-    starColor: '#F5C518',
+    bg: '#000000',
+    bgNav: 'rgba(0,0,0,0.85)',
+    card: '#0a0a0a',
+    surface: '#050505',
+    text: '#ffffff',
+    textSecondary: '#94a3b8',
+    textMuted: '#64748b',
+    textPrice: '#cbd5e1',
+    accent: '#6366f1',
+    accentDark: '#1e1b4b',
+    border: 'rgba(255,255,255,0.08)',
+    inputBg: '#0a0a0a',
+    sizeActive: '#6366f1',
+    sizeActiveTxt: '#ffffff',
+    sizeIdle: '#0a0a0a',
+    sizeIdleTxt: '#94a3b8',
+    skeletonBg: '#0f172a',
+    perkBg: '#0a0a0a',
+    badgeBg: 'rgba(99,102,241,0.1)',
+    starColor: '#6366f1',
     overlayBg: 'rgba(0,0,0,0.5)',
-    gradientFrom: '#ffe5a0',
-    gradientTo: '#F5C518',
+    gradientFrom: '#818cf8',
+    gradientTo: '#6366f1',
   },
   light: {
-    bg: '#f5f3ef',
-    bgNav: 'rgba(245,243,239,0.9)',
-    card: '#ffffff',
-    surface: '#f0ece5',
-    text: '#1a1a1a',
-    textSecondary: '#6b5e4d',
-    textMuted: '#b5a98c',
-    textPrice: '#3d3425',
-    accent: '#d4a810',
-    accentDark: '#241a00',
-    border: 'rgba(0,0,0,0.07)',
+    bg: '#ffffff',
+    bgNav: 'rgba(255,255,255,0.9)',
+    card: '#f8fafc',
+    surface: '#f1f5f9',
+    text: '#0f172a',
+    textSecondary: '#475569',
+    textMuted: '#94a3b8',
+    textPrice: '#1e293b',
+    accent: '#4f46e5',
+    accentDark: '#eef2ff',
+    border: 'rgba(0,0,0,0.06)',
     inputBg: '#ffffff',
-    sizeActive: '#d4a810',
-    sizeActiveTxt: '#241a00',
-    sizeIdle: '#e8e4dc',
-    sizeIdleTxt: '#6b5e4d',
-    skeletonBg: '#e8e4dc',
-    perkBg: '#ffffff',
-    badgeBg: 'rgba(212,168,16,0.12)',
-    starColor: '#d4a810',
+    sizeActive: '#4f46e5',
+    sizeActiveTxt: '#ffffff',
+    sizeIdle: '#f8fafc',
+    sizeIdleTxt: '#475569',
+    skeletonBg: '#e2e8f0',
+    perkBg: '#f8fafc',
+    badgeBg: 'rgba(79,70,229,0.1)',
+    starColor: '#4f46e5',
     overlayBg: 'rgba(255,255,255,0.4)',
-    gradientFrom: '#f5d44b',
-    gradientTo: '#d4a810',
+    gradientFrom: '#6366f1',
+    gradientTo: '#4f46e5',
   },
 }
 
@@ -69,6 +70,11 @@ const ArrowLeftIcon = () => (
 const CartIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+  </svg>
+)
+const UserIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
   </svg>
 )
 const BoltIcon = () => (
@@ -138,11 +144,11 @@ function ThemeToggle() {
       className="relative w-14 h-7 rounded-full p-0.5 focus:outline-none transition-all duration-500"
       style={{
         background: isDark
-          ? 'linear-gradient(135deg,#1c1b1b 0%,#2a2520 100%)'
-          : 'linear-gradient(135deg,#e0d8c8 0%,#f5f0e4 100%)',
+          ? 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)'
+          : 'linear-gradient(135deg, #e0e7ff 0%, #f5f3ff 100%)',
         boxShadow: isDark
-          ? 'inset 0 1px 3px rgba(0,0,0,0.5),0 0 8px rgba(245,197,24,0.15)'
-          : 'inset 0 1px 3px rgba(0,0,0,0.1),0 0 8px rgba(212,168,16,0.2)',
+          ? 'inset 0 1px 3px rgba(0,0,0,0.5), 0 0 8px rgba(99,102,241,0.15)'
+          : 'inset 0 1px 3px rgba(0,0,0,0.1), 0 0 8px rgba(79,70,229,0.1)',
       }}
     >
       {/* Stars in dark track */}
@@ -220,6 +226,8 @@ function Skeleton() {
 function Navbar({ wishlisted, setWishlisted }) {
   const { t } = useTheme()
   const navigate = useNavigate()
+  const user = useSelector((state) => state.auth.user)
+  const { totalItems } = useSelector((state) => state.cart)
   return (
     <nav
       className="sticky top-0 z-40 backdrop-blur-xl transition-colors duration-500"
@@ -272,6 +280,49 @@ function Navbar({ wishlisted, setWishlisted }) {
           >
             <ShareIcon />
           </button>
+
+          {/* Bag */}
+          <Link
+            to="/cart"
+            className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 relative"
+            style={{ color: t.textSecondary }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = t.accent; e.currentTarget.style.backgroundColor = `${t.accent}0d` }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = t.textSecondary; e.currentTarget.style.backgroundColor = 'transparent' }}
+            aria-label="Shopping bag"
+          >
+            <CartIcon />
+            {totalItems > 0 && (
+              <span
+                className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full text-[9px] font-bold flex items-center justify-center"
+                style={{ backgroundColor: t.accent, color: t.accentDark }}
+              >
+                {totalItems}
+              </span>
+            )}
+          </Link>
+
+          {/* User / Login */}
+          {user ? (
+            <Link
+              to="/seller/dashboard"
+              className="flex items-center gap-2 px-3 py-1 rounded-full transition-all duration-300 hover:brightness-110"
+              style={{ backgroundColor: `${t.accent}1a`, color: t.accent }}
+              aria-label="Profile"
+            >
+              <span className="text-[10px] font-bold uppercase tracking-wider">
+                {user.username?.split(' ')[0]}
+              </span>
+              <UserIcon />
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className="px-4 py-2 rounded-lg text-[10px] font-bold uppercase tracking-wider hover:brightness-110 active:scale-[0.97] transition-all duration-200"
+              style={{ backgroundColor: t.accent, color: t.accentDark }}
+            >
+              Sign In
+            </Link>
+          )}
         </div>
       </div>
     </nav>
@@ -442,7 +493,7 @@ const ProductDetailInner = () => {
   )
 
   if (!product) return (
-    <div className="min-h-screen flex items-center justify-center transition-colors duration-500" style={{ backgroundColor: t.bg, fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-screen flex items-center justify-center transition-colors duration-500" style={{ backgroundColor: t.bg, fontFamily: "'Outfit', sans-serif" }}>
       <div className="text-center">
         <p className="text-lg mb-4" style={{ color: t.textSecondary }}>Product not found.</p>
         <Link to="/" className="text-sm hover:underline" style={{ color: t.accent }}>← Back to Home</Link>
@@ -453,7 +504,7 @@ const ProductDetailInner = () => {
   const price = product.price || {}
 
   return (
-    <div className="min-h-screen transition-colors duration-500" style={{ backgroundColor: t.bg, fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-screen transition-colors duration-500" style={{ backgroundColor: t.bg, fontFamily: "'Outfit', sans-serif" }}>
       <Navbar wishlisted={wishlisted} setWishlisted={setWishlisted} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
