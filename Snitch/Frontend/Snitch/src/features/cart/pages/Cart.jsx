@@ -5,14 +5,13 @@ import CartItem from '../components/CartItem.jsx';
 import CartSummary from '../components/CartSummary.jsx';
 import { ShoppingCart, ShoppingBag, ArrowLeft, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
 const Cart = () => {
     const { items, total, totalItems } = useSelector((state) => state.cart);
     const { handleGetCart, handleUpdateQuantity, handleRemoveItem, loading, error } = useCart();
-
     useEffect(() => {
         handleGetCart();
     }, [handleGetCart]);
+    
 
     if (loading && items.length === 0) {
         return (

@@ -3,9 +3,33 @@ import { ArrowRight, ShoppingBag } from 'lucide-react';
 
 const CartSummary = ({ total, totalItems, onCheckout }) => {
     const shipping = total > 1000 ? 0 : 99;
-    const tax = Math.round(total * 0.18); // 18% GST example
+    const tax = Math.round(total * 0.18);
     const finalTotal = total + shipping + tax;
+     const handlePayment = () => {
+    const options = {
+      key: "rzp_test_Sho1qGO855U8XQ",
+      amount: 50000, // Amount in paise
+      currency: "INR",
+      name: "Test Company",
+      description: "Test Transaction",
+      order_id: "order_9A33XWu170gUtm", // Generate order_id on server
+      handler: (response) => {
+        console.log(response);
+        alert("Payment Successful!");
+      },
+      prefill: {
+        name: "Harpreet Singh",
+        email: "theharpreetsingh524@gmail.com",
+        contact: "7973546328",
+      },
+      theme: {
+        color: "#F37254",
+      },
+    };
 
+   const razorpayInstance = new window.Razorpay(options);
+    razorpayInstance.open();
+  };
     return (
         <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 sticky top-24 shadow-2xl shadow-black/50">
             <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
@@ -38,7 +62,7 @@ const CartSummary = ({ total, totalItems, onCheckout }) => {
             </div>
 
             <button 
-                onClick={onCheckout}
+                onClick={handlePayment}
                 disabled={totalItems === 0}
                 className="w-full bg-indigo-500 hover:bg-indigo-600 text-black font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:hover:scale-100 shadow-lg shadow-indigo-500/20"
             >
