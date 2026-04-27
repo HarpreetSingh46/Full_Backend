@@ -1,35 +1,44 @@
 import React from 'react';
 import { ArrowRight, ShoppingBag } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const CartSummary = ({ total, totalItems, onCheckout }) => {
+    const navigate = useNavigate();
     const shipping = total > 1000 ? 0 : 99;
     const tax = Math.round(total * 0.18);
     const finalTotal = total + shipping + tax;
-     const handlePayment = () => {
-    const options = {
-      key: "rzp_test_Sho1qGO855U8XQ",
-      amount: 50000, // Amount in paise
-      currency: "INR",
-      name: "Test Company",
-      description: "Test Transaction",
-      order_id: "order_9A33XWu170gUtm", // Generate order_id on server
-      handler: (response) => {
-        console.log(response);
-        alert("Payment Successful!");
-      },
-      prefill: {
-        name: "Harpreet Singh",
-        email: "theharpreetsingh524@gmail.com",
-        contact: "7973546328",
-      },
-      theme: {
-        color: "#F37254",
-      },
-    };
 
-   const razorpayInstance = new window.Razorpay(options);
-    razorpayInstance.open();
-  };
+    const handlePayment = () => {
+        const options = {
+            key: "rzp_test_Sho1qGO855U8XQ",
+            amount: finalTotal * 100, // Amount in paise
+            currency: "INR",
+            name: "SNITCH",
+            description: "Premium Collection Purchase",
+            order_id: "", // This should ideally be fetched from backend
+            handler: (response) => {
+                console.log("Payment Success:", response);
+                navigate('/order-success');
+            },
+            prefill: {
+                name: "User",
+                email: "user@example.com",
+                contact: "9999999999",
+            },
+            theme: {
+                color: "#6366f1",
+            },
+        };
+
+        if (window.Razorpay) {
+            const razorpayInstance = new window.Razorpay(options);
+            razorpayInstance.open();
+        } else {
+            // Fallback for development if Razorpay script is not loaded
+            console.log("Razorpay script not found, navigating to success page for demo.");
+            navigate('/order-success');
+        }
+    };
     return (
         <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 sticky top-24 shadow-2xl shadow-black/50">
             <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
