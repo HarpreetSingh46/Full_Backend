@@ -13,7 +13,7 @@ async function RegisterController (req, res) {
   // const isUserNameExist = await  userModel.findOne({username});
   // if(isUserNameExist){
   //     return res.status(409).json({
-  //         message:"User Name is Already Exist",
+  //        message:"User Name is Already Exist",
   //     })
   // }
 
