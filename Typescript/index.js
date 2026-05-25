@@ -11,7 +11,6 @@ console.log(a + b);
     Data types in TS
     Primitive Data
     string , number , boolean , array , tuple , void never
-
 */
 const str = "Hello world";
 console.log(typeof str);
