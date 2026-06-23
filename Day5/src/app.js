@@ -10,7 +10,6 @@ const app = express()
 app.use(express.json())
 const notes = []
 
-
 /* POST /notes */
 app.post("/notes", (req, res) => {
 
