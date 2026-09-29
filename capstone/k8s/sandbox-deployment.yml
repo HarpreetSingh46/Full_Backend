@@ -8,9 +8,10 @@ metadata:
 
 spec:
   replicas: 1
+
   selector:
     matchLabels:
-      app : sandbox
+      app: sandbox
 
   template:
     metadata:
@@ -21,14 +22,14 @@ spec:
       containers:
         - image: sandbox:latest
           imagePullPolicy: IfNotPresent
-          name:  main-sandbox-container
+          name: main-sandbox-container
 
           resources:
-          limits:
-              cpu: "500M"
+            limits:
+              cpu: "500m"
               memory: "400Mi"
-          requests:
-              cpu: "250M"
+            requests:
+              cpu: "250m"
               memory: "55Mi"
 
           livenessProbe:
@@ -47,4 +48,4 @@ spec:
 
           ports:
             - containerPort: 3000
-              name: main-sandbox-port
+              name: main-sandbox
