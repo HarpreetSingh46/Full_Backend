@@ -32,5 +32,8 @@ export async function createPod(sandboxId) {
              ]
         },
     };  
+        const response = await k8sCoreApi.createNamespacedPod('default', podManifest);
+        return response.body;
+
 
 }
