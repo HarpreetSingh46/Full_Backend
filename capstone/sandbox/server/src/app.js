@@ -16,7 +16,6 @@ app.get("/api/sandbox/health", (req, res) => {
     status: "success",
   });
 });
-
 app.post("/api/sandbox/start", async (req, res) => {
   try {
     const sandboxId = uuid();
