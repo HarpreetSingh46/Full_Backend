@@ -1,5 +1,4 @@
 import express from "express";
-import dotenv from "dotenv";
 import morgan from "morgan";
 import  {createPod}  from "./kubernnetes/pod.js";
 import {createService} from "./kubernnetes/service.js";
@@ -9,7 +8,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-dotenv.config();    
+   
 app.get("/api/sandbox/health", (req, res) => {
   res.status(200).json({
     message: "Sandbox API is healthy",

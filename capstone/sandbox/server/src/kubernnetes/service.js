@@ -24,6 +24,9 @@ export const createService = async (sandboxId) => {
             type: 'ClusterIP', 
         },
     };
-    const response = await k8sCoreApi.createNamespacedService('default', serviceManifest);
-    return response.body;
+const response = await k8sCoreApi.createNamespacedService({
+    namespace: 'default',
+    body: serviceManifest,
+});
+return response
 }
