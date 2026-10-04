@@ -14,19 +14,28 @@ app.get('/api/status/readyz', (req, res) => {
     res.status(200).json({status: 'ok'});
 });
 
+const proxies = {};
+function getProxy(sandboxId) {
+        const target = `http://localhost:3000/${sandboxId}`;
 
+    if (!proxies[sandboxId]) {
+        proxies[sandboxId] = createProxyMiddleware({    
+       
+            target,
+            changeOrigin: true,
+            ws: true,
+      
+        });
+    }
+    return proxies[sandboxId];
+}
 
 
 
 app.use((req, res, next) => {
     const host = req.headers.host;
     const sandboxId = host.split('.')[0];
-    const target = `http://localhost:3000/${sandboxId}`;
-    return createProxyMiddleware({
-        target,
-        changeOrigin: true,
-        ws: true,
-    })(req, res, next);
+    return getProxy(sandboxId)(req, res, next);
 });
 
 
