@@ -4,11 +4,7 @@ import fs from 'fs';
 const app = express();
 
 const WORKING_DIR = '/workspace';
-
-
 app.use(morgan('dev'));
-
-
 app.get('/', (req, res) => {
   res.status(200).json({ message: 'Hello, World!', status: 'success' });
 });
