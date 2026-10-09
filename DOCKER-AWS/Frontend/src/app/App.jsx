@@ -6,7 +6,6 @@ import * as Y from "yjs";
 import { SocketIOProvider } from "y-socket.io";
 import { Editor } from "@monaco-editor/react";
 import { use } from "react";
-
 const App = () => {
   const editorRef = useRef(null);
   const [username, setusername] = useState(() => {
